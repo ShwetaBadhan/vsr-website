@@ -9,10 +9,11 @@
 @include('frontend.components.home.services')
 @include('frontend.components.home.counter')
 @include('frontend.components.home.team')
-@include('frontend.components.home.faq')
-@include('frontend.components.home.testimonial')
-@include('frontend.components.home.blog')
 @include('frontend.components.home.brand')
+@include('frontend.components.home.blog')
+{{-- 
+@include('frontend.components.home.faq')
+@include('frontend.components.home.testimonial') --}}
 
 
 @endsection
