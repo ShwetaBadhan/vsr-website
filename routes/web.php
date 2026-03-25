@@ -2,9 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('frontend.pages.index');
-})->name('home');
+
+
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\AuthController;
+
+Route::get('/', [HomeController::class, 'home'])->name('home');
+
 
 // about us
 Route::get('/about-us', function () {
@@ -23,13 +29,10 @@ Route::get('/service-details', function () {
 
 
 // products
-Route::get('/products', function () {
-    return view('frontend.pages.products');
-})->name('products');
+Route::get('/products', [HomeController::class, 'products'])->name('products');
 
-Route::get('/product-details', function () {
-    return view('frontend.pages.product-details');
-})->name('product-details');
+Route::get('/product/{slug}', [HomeController::class, 'productDetails'])
+    ->name('product-details');
 
 // blogs
 Route::get('/blogs', function () {
@@ -46,11 +49,50 @@ Route::get('/contact-us', function () {
 })->name('contact-us');
 
 // cart
-Route::get('/cart', function () {
-    return view('frontend.pages.cart');
-})->name('cart');
+// Route::get('/cart', function () {
+//     return view('frontend.pages.cart');
+// })->name('cart');
+Route::post('/cart/add', [App\Http\Controllers\CartController::class, 'addToCart'])->name('cart.add');
+Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
+Route::post('/cart/update', [App\Http\Controllers\CartController::class, 'updateCart'])->name('cart.update');
+Route::post('/cart/remove', [App\Http\Controllers\CartController::class, 'removeFromCart'])->name('cart.remove');
+Route::get('/cart/items', [App\Http\Controllers\CartController::class, 'getCartItems'])->name('cart.items'); // For AJAX
+Route::get('/clear-cart', function() {
+    session()->forget('cart');
+    return 'Cart cleared! <a href="'.route('products').'">Go back</a>';
+});
+// Wishlist Routes
+Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
+Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
+Route::post('/wishlist/remove', [WishlistController::class, 'remove'])->name('wishlist.remove');
+Route::post('/wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
+// Checkout Routes
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+Route::post('/checkout/update-shipping', [CheckoutController::class, 'updateShipping'])->name('checkout.shipping');
+Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
 
-// checkout
-Route::get('/checkout', function () {
-    return view('frontend.pages.checkout');
-})->name('checkout');
+
+// Authentication Routes
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Password Reset Routes
+Route::get('/forgot-password', [AuthController::class, 'showForgotForm'])->name('password.request');
+Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])->name('password.email');
+Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+
+// Registration Routes
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+
+// Optional: Social Auth
+Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
+
+
+
+

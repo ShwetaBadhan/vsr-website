@@ -75,8 +75,7 @@
     <script src="{{url ('assets/js/isotope.pkgd.min.js')}}"></script>
     <!-- Main Js File -->
     <script src="{{url ('assets/js/main.js')}}"></script>
-
-
+@stack('scripts')
 </body>
 
 </html>

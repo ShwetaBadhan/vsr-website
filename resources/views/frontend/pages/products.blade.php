@@ -54,254 +54,63 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xl-3 col-lg-4 col-md-6">
-                    <div class="product-style1">
+                @forelse($products as $product)
+                <div class="col-lg-3">
+                    <div class="product-style2">
                         <div class="product-img">
-                            <img src="assets/img/product/product-1-1.png" alt="product img">
+                            @php
+                                $image = $product['images'][0] ?? null;
+                            @endphp
+
+                            <img src="{{ $image ? env('BACKEND_URL') . '/storage/' . $image : asset('assets/img/product/product-1-1.png') }}"
+                                alt="product">
                         </div>
-                        <div class="product-meta">30% Off</div>
+
                         <div class="product-about">
-                            <p class="text">800 ML</p>
-                            <h2 class="product-title"><a href="{{ route('product-details') }}">Coconut Oil Jar</a></h2>
-                            <span class="price"> <del>$18.00</del>$14.00</span>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
+                            <p class="text">{{ $product['size'] ?? 'Size' }}</p>
+
+                            <h2 class="product-title">
+                                <a href="{{ route('product-details', $product['slug']) }}">
+                                    {{ $product['name'] ?? 'Product' }}
+                                </a>
+                            </h2>
+
+                            <span class="price">
+                                <del>Rs.{{ $product['price'] ?? '0' }}</del>
+                                Rs.{{ $product['discount_price'] ?? '0' }}
+                            </span>
                         </div>
                         <div class="social-style">
                             <ul>
                                 <li>
-                                    <a class="main-icon" href="#"><i class="far fa-shopping-basket"></i></a>
-                                    <ul class="sub-list">
-                                        <li><a href="#"><i class="fas fa-exchange"></i></a></li>
-                                        <li><a href="#"><i class="far fa-heart"></i></a></li>
-                                    </ul>
+                                    <form action="{{ route('cart.add') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $product['id'] }}">
+                                        <input type="hidden" name="product_name" value="{{ $product['name'] }}">
+                                        <input type="hidden" name="product_price" value="{{ $product['price'] }}">
+                                        <input type="hidden" name="product_image"
+                                            value="{{ $product['images'][0] ?? '' }}">
+                                        <input type="hidden" name="quantity" value="1">
+                                        <button type="submit" class="vs-btn">
+                                            <i class="far fa-shopping-basket"></i> Add to Cart
+                                        </button>
+                                    </form>
                                 </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-6">
-                    <div class="product-style1">
-                        <div class="product-img">
-                            <img src="assets/img/product/product-1-2.png" alt="product img">
-                        </div>
-                        <div class="product-meta">30% Off</div>
-                        <div class="product-about">
-                            <p class="text">800 ML</p>
-                            <h2 class="product-title"><a href="{{ route('product-details') }}">PureFroots Jar</a></h2>
-                            <span class="price"> <del>$18.00</del>$14.00</span>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                        <div class="social-style">
-                            <ul>
                                 <li>
-                                    <a class="main-icon" href="#"><i class="far fa-shopping-basket"></i></a>
-                                    <ul class="sub-list">
-                                        <li><a href="#"><i class="fas fa-exchange"></i></a></li>
-                                        <li><a href="#"><i class="far fa-heart"></i></a></li>
-                                    </ul>
-                                </li>
+    <button class="icon-btn wishlist-toggle {{ in_array($product['id'], session('wishlist', [])) ? 'active' : '' }}" 
+            data-product-id="{{ $product['id'] }}">
+        <i class="{{ in_array($product['id'], session('wishlist', [])) ? 'fas' : 'far' }} fa-heart"></i>
+    </button>
+</li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-4 col-md-6">
-                    <div class="product-style1">
-                        <div class="product-img">
-                            <img src="assets/img/product/product-1-3.png" alt="product img">
-                        </div>
-                        <div class="product-meta">30% Off</div>
-                        <div class="product-about">
-                            <p class="text">600 ML</p>
-                            <h2 class="product-title"><a href="{{ route('product-details') }}">Nature's Bounty</a></h2>
-                            <span class="price"> <del>$12.00</del>$14.00</span>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                        <div class="social-style">
-                            <ul>
-                                <li>
-                                    <a class="main-icon" href="#"><i class="far fa-shopping-basket"></i></a>
-                                    <ul class="sub-list">
-                                        <li><a href="#"><i class="fas fa-exchange"></i></a></li>
-                                        <li><a href="#"><i class="far fa-heart"></i></a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+            @empty
+                <div class="col-12 text-center">
+                    <p>No Products Found</p>
                 </div>
-                <div class="col-xl-3 col-lg-4 col-md-6">
-                    <div class="product-style1">
-                        <div class="product-img">
-                            <img src="assets/img/product/product-1-4.png" alt="product img">
-                        </div>
-                        <div class="product-meta">32% Off</div>
-                        <div class="product-about">
-                            <p class="text">900 ML</p>
-                            <h2 class="product-title"><a href="{{ route('product-details') }}">Organic Harvest</a></h2>
-                            <span class="price"> <del>$16.00</del>$15.00</span>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                        <div class="social-style">
-                            <ul>
-                                <li>
-                                    <a class="main-icon" href="#"><i class="far fa-shopping-basket"></i></a>
-                                    <ul class="sub-list">
-                                        <li><a href="#"><i class="fas fa-exchange"></i></a></li>
-                                        <li><a href="#"><i class="far fa-heart"></i></a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-6">
-                    <div class="product-style1">
-                        <div class="product-img">
-                            <img src="assets/img/product/product-1-5.png" alt="product img">
-                        </div>
-                        <div class="product-meta">40% Off</div>
-                        <div class="product-about">
-                            <p class="text">700 ML</p>
-                            <h2 class="product-title"><a href="{{ route('product-details') }}">Fresh & Rooted</a></h2>
-                            <span class="price"> <del>$28.00</del>$19.00</span>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                        <div class="social-style">
-                            <ul>
-                                <li>
-                                    <a class="main-icon" href="#"><i class="far fa-shopping-basket"></i></a>
-                                    <ul class="sub-list">
-                                        <li><a href="#"><i class="fas fa-exchange"></i></a></li>
-                                        <li><a href="#"><i class="far fa-heart"></i></a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-6">
-                    <div class="product-style1">
-                        <div class="product-img">
-                            <img src="assets/img/product/product-1-6.png" alt="product img">
-                        </div>
-                        <div class="product-meta">30% Off</div>
-                        <div class="product-about">
-                            <p class="text">800 ML</p>
-                            <h2 class="product-title"><a href="{{ route('product-details') }}">Froots & Greens</a></h2>
-                            <span class="price"> <del>$18.00</del>$14.00</span>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                        <div class="social-style">
-                            <ul>
-                                <li>
-                                    <a class="main-icon" href="#"><i class="far fa-shopping-basket"></i></a>
-                                    <ul class="sub-list">
-                                        <li><a href="#"><i class="fas fa-exchange"></i></a></li>
-                                        <li><a href="#"><i class="far fa-heart"></i></a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-6">
-                    <div class="product-style1">
-                        <div class="product-img">
-                            <img src="assets/img/product/product-1-7.png" alt="product img">
-                        </div>
-                        <div class="product-meta">30% Off</div>
-                        <div class="product-about">
-                            <p class="text">800 ML</p>
-                            <h2 class="product-title"><a href="{{ route('product-details') }}">Earthy Delights</a></h2>
-                            <span class="price"> <del>$18.00</del>$14.00</span>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                        <div class="social-style">
-                            <ul>
-                                <li>
-                                    <a class="main-icon" href="#"><i class="far fa-shopping-basket"></i></a>
-                                    <ul class="sub-list">
-                                        <li><a href="#"><i class="fas fa-exchange"></i></a></li>
-                                        <li><a href="#"><i class="far fa-heart"></i></a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-6">
-                    <div class="product-style1">
-                        <div class="product-img">
-                            <img src="assets/img/product/product-1-8.png" alt="product img">
-                        </div>
-                        <div class="product-meta">30% Off</div>
-                        <div class="product-about">
-                            <p class="text">800 ML</p>
-                            <h2 class="product-title"><a href="{{ route('product-details') }}">Purely Picked</a></h2>
-                            <span class="price"> <del>$18.00</del>$14.00</span>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                        <div class="social-style">
-                            <ul>
-                                <li>
-                                    <a class="main-icon" href="#"><i class="far fa-shopping-basket"></i></a>
-                                    <ul class="sub-list">
-                                        <li><a href="#"><i class="fas fa-exchange"></i></a></li>
-                                        <li><a href="#"><i class="far fa-heart"></i></a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+            @endforelse
             </div>
             <div class="vs-pagination text-center mb-0 mt-4">
                 <ul>
@@ -315,55 +124,42 @@
             </div>
         </div>
     </section>
-    <!--==============================
-    Offer Area
-    ============================== -->
-    <div class="space-bottom">
-        <div class="container">
-            <div class="row">
-                <div class="offer-deal">
-                    <div class="row gy-5 gx-5 align-items-center">
-                        <div class="col-lg-6">
-                            <div class="row align-items-center" data-bg-src="assets/img/about/about-bg-1-2.jpg">
-                                <div class="col-lg-6 col-md-6 px-0">
-                                    <div class="deal-offer white-style">
-                                        <span class="offer-subtitle">Enjoy Healthy Food</span>
-                                        <h2 class="offer-title h3">Eat Organic</h2>
-                                        <p class="offer-text">100% Natural and pure organic products</p>
-                                        <span class="price"> <del>$18.00</del>$14.00</span>
-                                        <a href="{{ route('blogs') }}" class="vs-btn">Shop Now</a>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 px-0">
-                                    <div class="offer-img">
-                                        <img src="assets/img/about/deal-offer1.png" alt="offer">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="row align-items-center" data-bg-src="assets/img/about/about-bg-1-1.jpg">
-                                <div class="col-lg-6 col-md-6 px-0">
-                                    <div class="deal-offer">
-                                        <span class="offer-subtitle">Organic Deal</span>
-                                        <h2 class="offer-title h3">Pack of 2</h2>
-                                        <p class="offer-text">100% Natural and pure organic products</p>
-                                        <span class="price"> <del>$18.00</del>$14.00</span>
-                                        <a href="{{ route('blogs') }}" class="vs-btn">Shop Now</a>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 px-0">
-                                    <div class="offer-img">
-                                        <img src="assets/img/about/deal-offer1.png" alt="offer">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                 </div>
-            </div>
-        </div>
-    </div>
 
 
 @endsection
+@push('scripts')
+<script>
+    // Wishlist toggle
+    document.querySelectorAll('.wishlist-toggle').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const productId = this.dataset.productId;
+            const icon = this.querySelector('i');
+            
+            fetch("{{ route('wishlist.toggle') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({ product_id: productId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if (data.in_wishlist) {
+                        icon.classList.remove('far');
+                        icon.classList.add('fas');
+                        this.classList.add('active');
+                    } else {
+                        icon.classList.remove('fas');
+                        icon.classList.add('far');
+                        this.classList.remove('active');
+                    }
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+</script>
+@endpush

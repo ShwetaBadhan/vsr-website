@@ -706,27 +706,27 @@
   });
 
   /*---------- 19. Quantity Added ----------*/
-  $(".quantity-plus").each(function () {
-    $(this).on("click", function (e) {
-      e.preventDefault();
-      var $qty = $(this).closest(".quantity-container").find(".qty-input");
-      var currentVal = parseInt($qty.val());
-      if (!isNaN(currentVal)) {
-        $qty.val(currentVal + 1);
-      }
-    });
-  });
+  // $(".quantity-plus").each(function () {
+  //   $(this).on("click", function (e) {
+  //     e.preventDefault();
+  //     var $qty = $(this).closest(".quantity-container").find(".qty-input");
+  //     var currentVal = parseInt($qty.val());
+  //     if (!isNaN(currentVal)) {
+  //       $qty.val(currentVal + 1);
+  //     }
+  //   });
+  // });
   
-  $(".quantity-minus").each(function () {
-    $(this).on("click", function (e) {
-      e.preventDefault();
-      var $qty = $(this).closest(".quantity-container").find(".qty-input");
-      var currentVal = parseInt($qty.val());
-      if (!isNaN(currentVal) && currentVal > 1) {
-        $qty.val(currentVal - 1);
-      }
-    });
-  });
+  // $(".quantity-minus").each(function () {
+  //   $(this).on("click", function (e) {
+  //     e.preventDefault();
+  //     var $qty = $(this).closest(".quantity-container").find(".qty-input");
+  //     var currentVal = parseInt($qty.val());
+  //     if (!isNaN(currentVal) && currentVal > 1) {
+  //       $qty.val(currentVal - 1);
+  //     }
+  //   });
+  // });
 
     /*----------- 18. Woocommerce Toggle ----------*/
   // Ship To Different Address

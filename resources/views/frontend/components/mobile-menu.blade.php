@@ -37,28 +37,28 @@
                             <li><a href="{{ route('products') }}">Product 1</a>
                                 <ul>
                                     <li><a href="{{ route('products') }}">Products</a></li>
-                                    <li><a href="{{ route('product-details') }}">product Details</a></li>
+                                    {{-- <li><a href="{{ route('product-details', $product['slug']) }}">product Details</a></li> --}}
                                     
                                 </ul>
                             </li>
                             <li><a href="#">Product 2</a>
                                  <ul>
                                     <li><a href="{{ route('products') }}">Products</a></li>
-                                    <li><a href="{{ route('product-details') }}">product Details</a></li>
+                                    {{-- <li><a href="{{ route('product-details', $product['slug']) }}">product Details</a></li> --}}
                                     
                                 </ul>
                             </li>
                             <li><a href="#">Product 3</a>
                                  <ul>
                                     <li><a href="{{ route('products') }}">Products</a></li>
-                                    <li><a href="{{ route('product-details') }}">product Details</a></li>
+                                    {{-- <li><a href="{{ route('product-details', $product['slug']) }}">product Details</a></li> --}}
                                     
                                 </ul>
                             </li>
                             <li><a href="#">Product 4</a>
                                 <ul>
                                     <li><a href="{{ route('products') }}">Products</a></li>
-                                    <li><a href="{{ route('product-details') }}">product Details</a></li>
+                                    {{-- <li><a href="{{ route('product-details', $product['slug']) }}">product Details</a></li> --}}
                                     
                                 </ul>
                             </li>

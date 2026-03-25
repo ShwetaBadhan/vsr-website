@@ -60,11 +60,14 @@
                             <div class="col-auto d-lg-block d-none">
                                 <div class="header-icons">
                                     <a href="#" class="link-btn"><i class="fal fa-user"></i>Login</a>
-                                    <a href="#" class="icon-btn"><i class="far fa-heart"></i></a>
-                                    <a href="#" class="icon-btn style2 sideCartToggler sideCartToggler">
-                                        <i class="fal fa-shopping-cart"></i>
-                                        <span class="badge">0</span>
-                                    </a>
+                                    <a href="{{ route('wishlist') }}" class="icon-btn"><i class="far fa-heart"></i></a>
+                                  <a href="#" class="icon-btn style2 sideCartToggler">
+    <i class="fal fa-shopping-cart"></i>
+    <!-- ✅ Added ID for JavaScript targeting -->
+    <span class="badge" id="cartCountBadge">
+        {{ array_sum(array_column(session('cart', []), 'quantity')) }}
+    </span>
+</a>
                                 </div>
                             </div>
                         </div>
