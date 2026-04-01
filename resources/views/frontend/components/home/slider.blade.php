@@ -15,7 +15,7 @@ Hero Area
                         @forelse($sliders as $slider)
                         <div class="hero-content">
                             {{-- Use default text since API only sends image --}}
-                            <h1 class="hero-title">Welcome to Continuity Care</h1>
+                            <h1 class="hero-title">Welcome to VSR</h1>
                             <p class="hero-text">Providing dedicated disability and aged care services.</p>
                             <div class="hero-bottom">
                                 <a href="{{ route('products') ?? '#' }}" class="vs-btn">Discover Services</a>
