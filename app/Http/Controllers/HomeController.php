@@ -20,11 +20,12 @@ class HomeController extends Controller
         $teamResponse = Http::get(config('api.base_url') . '/our-team');
         $teamData = $teamResponse->json();
         // Blogs API ✅ Fixed: use config() not env()
-        $blogResponse = Http::get(config('api.base_url') . '/home');
+        $blogResponse = Http::get(config('api.base_url') . '/blogs');
         $blogData = $blogResponse->json();
     
         return view('frontend.pages.index', [
             'sliders'    => $homeData['slider'] ?? [],
+            'settings'    => $homeData['settings'] ?? [],
             'partners'   => $homeData['partner'] ?? [],
             'about'      => $homeData['about_us'] ?? [],
             'counters'      => $homeData['counters'] ?? [],

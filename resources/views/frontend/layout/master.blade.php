@@ -13,9 +13,27 @@
     <!-- Mobile Specific Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Favicons - Place favicon.ico in the root directory -->
-    <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
+    <!-- ✅ Favicons with NULL-SAFE code -->
+    @php
+        // 🔹 Step 1: Agar $settings undefined hai, toh null set karein
+        $settings = $settings ?? null;
+        
+        // 🔹 Step 2: Favicon fetch karein (object/array dono ke liye safe)
+        $favicon = null;
+        if ($settings) {
+            $favicon = is_object($settings) 
+                ? ($settings->favicon ?? ($settings['favicon'] ?? null))
+                : ($settings['favicon'] ?? null);
+        }
+    @endphp
+
+    <link rel="shortcut icon" 
+          href="{{ $favicon ? $favicon : asset('assets/img/favicon.ico') }}" 
+          type="image/x-icon">
+    
+    <link rel="icon" 
+          href="{{ $favicon ?  $favicon : asset('assets/img/favicon.ico') }}" 
+          type="image/x-icon">
 
     <!--==============================
 	  Google Fonts

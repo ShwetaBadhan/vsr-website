@@ -14,17 +14,18 @@
                                     <p class="sec-subtitle">Enter your email address and get new updates</p>
                                 </div>
                             </div>
-                            
+
                             <form class="newsletter-form">
                                 <div class="search-btn">
-                                    <input class="form-control" type="email" placeholder="Ener your email address....">
+                                    <input class="form-control" type="email"
+                                        placeholder="Ener your email address....">
                                     <button type="submit" class="vs-btn">Subscribe</button>
                                 </div>
                             </form>
                         </div>
                         <div class="col-lg-6">
                             <div class="subscribe-img">
-                                <img src="assets/img/bg/subscribe-img1.png" alt="subscribe-img">
+                                <img src="{{ url('assets/img/bg/subscribe-img1.png') }}" alt="subscribe-img">
                             </div>
                         </div>
                     </div>
@@ -33,9 +34,9 @@
         </div>
     </div>
     <!--==============================
-			Footer Area
-	==============================-->
-    <footer class="footer-wrapper  footer-layout2" data-bg-src="assets/img/bg/footer-bg-1-1.jpg">
+   Footer Area
+ ==============================-->
+    <footer class="footer-wrapper  footer-layout2" data-bg-src="{{ url('assets/img/bg/footer-bg-1-1.jpg') }}">
         <div class="widget-area">
             <div class="container">
                 <div class="row justify-content-center">
@@ -43,9 +44,21 @@
                         <div class="widget footer-widget">
                             <div class="vs-widget-about">
                                 <div class="footer-logo">
-                                    <a href="{{ route('home') }}"><img src="assets/img/logo-2.png" alt="logo"></a>
+                                    @php
+                                        $image = is_object($settings)
+                                            ? $settings->white_logo ?? ($settings['white_logo'] ?? null)
+                                            : $settings['white_logo'] ?? null;
+                                    @endphp
+
+                                    <a href="{{ route('home') }}">
+                                        <img src="{{ $image ? $image : asset('assets/img/product/product-1-1.png') }}"
+                                           
+                                        alt="product"
+                                        style="max-height: 50px; width: auto;">
+                                         </a>
                                 </div>
-                                <p class="footer-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor in cididunt ut labore et dolo aliqua.</p>
+                                <p class="footer-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                    eiusmod tempor in cididunt ut labore et dolo aliqua.</p>
                                 <div class="footer-social">
                                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                                     <a href="#"><i class="fab fa-twitter"></i></a>
@@ -83,21 +96,27 @@
                             <h4 class="widget_title">Contact</h4>
                             <div class="footer-media">
                                 <div class="media-style1">
-                                    <div class="media-icon"><img src="assets/img/icon/icon-1-1.png" alt="icon"></div>
+                                    <div class="media-icon"><img src="{{ url('assets/img/icon/icon-1-1.png') }}"
+                                            alt="icon"></div>
                                     <div class="media-body">
-                                        <p class="media-info"><a href="tel:+88013004451">+88 013 00 44 51</a> <br> Mon - Sat: 09.00 to 06.00</p>
+                                        <p class="media-info"><a href="tel:+88013004451">+88 013 00 44 51</a> <br> Mon -
+                                            Sat: 09.00 to 06.00</p>
                                     </div>
                                 </div>
                                 <div class="media-style1">
-                                    <div class="media-icon"><img src="assets/img/icon/icon-1-3.png" alt="icon"></div>
+                                    <div class="media-icon"><img src="{{ url('assets/img/icon/icon-1-3.png') }}"
+                                            alt="icon"></div>
                                     <div class="media-body">
-                                        <p class="media-info">5919 Trussville Crossings Pkwy, Birmingham, United Kingdom</p>
+                                        <p class="media-info">5919 Trussville Crossings Pkwy, Birmingham, United Kingdom
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="media-style1">
-                                    <div class="media-icon"><img src="assets/img/icon/icon-1-2.png" alt="icon"></div>
+                                    <div class="media-icon"><img src="{{ url('assets/img/icon/icon-1-2.png') }}"
+                                            alt="icon"></div>
                                     <div class="media-body">
-                                        <p class="media-info"><a href="mailto:example@domain.com">example@domain.com</a> <br> <a href="mailto:officename@example.com">officename@example.com</a></p>
+                                        <p class="media-info"><a href="mailto:example@domain.com">example@domain.com</a>
+                                            <br> <a href="mailto:officename@example.com">officename@example.com</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -110,7 +129,15 @@
             <div class="container">
                 <div class="row justify-content-xl-between justify-content-center align-items-center">
                     <div class="col-auto">
-                        <p class="copyright-text">Copyright <i class="fal fa-copyright"></i> <?php echo date('Y')?> <a href="{{ route('home') }}">Farmix</a>. All Rights Reserved By <a href="#">Vibrantick Infotech Solutions</a></p>
+                     @php
+                            $settings = $settings ?? null;
+                            $companyName = $settings?->company_name ?? $settings['company_name'] ?? 'VSR';
+                        @endphp
+                        
+
+                        <p class="copyright-text"> <i class="fal fa-copyright"></i> <?php echo date('Y'); ?> <a
+                                href="{{ route('home') }}">{{ $companyName }}</a>. All Rights Reserved By <a
+                                href="#">Vibrantick Infotech Solutions</a></p>
                     </div>
                     <div class="col-auto">
                         <div class="copyright-menu">
@@ -124,4 +151,4 @@
                 </div>
             </div>
         </div>
-    </footer> 
+    </footer>

@@ -5,9 +5,17 @@
     <div class="vs-menu-wrapper">
         <div class="vs-menu-area text-center">
             <button class="vs-menu-toggle"><i class="fal fa-times"></i></button>
-            <div class="mobile-logo">
-                <a href="{{ route('home') }}"><img src="assets/img/logo.png" alt="Farmix"></a>
-            </div>
+    <div class="mobile-logo">
+    @php
+        $image = is_object($settings) 
+            ? ($settings->white_logo ?? $settings['black_logo'] ?? null)
+            : ($settings['black_logo'] ?? null);
+    @endphp
+
+    <img src="{{ $image ?   $image : asset('assets/img/product/product-1-1.png') }}"
+         alt="product"
+         style="max-height: 50px; width: auto;">
+</div>
             <div class="vs-mobile-menu">
                 <ul>
                     <li class="">
@@ -28,7 +36,7 @@
                         <a href="{{ route('blogs') }}">Blog</a>
                         <ul class="sub-menu">
                             <li><a href="{{ route('blogs') }}">Blog</a></li>
-                            <li><a href="blog-details.html">Blog Details</a></li>
+                            <li><a href="">Blog Details</a></li>
                         </ul>
                     </li>
                     <li class="menu-item-has-children mega-menu-wrap">
