@@ -1,10 +1,9 @@
 @extends('frontend.layout.master')
 @section('content')
-
- <!--==============================
-    Breadcumb
-    ============================== -->
-    <div class="breadcumb-wrapper" data-bg-src="{{url ('assets/img/breadcrumb/breadcumb-bg.png')}}">
+    <!--==============================
+        Breadcumb
+        ============================== -->
+    <div class="breadcumb-wrapper" data-bg-src="{{ url('assets/img/breadcrumb/breadcumb-bg.png') }}">
         <div class="container z-index-common">
             <div class="breadcumb-content">
                 <h1 class="breadcumb-title">Our Products</h1>
@@ -18,8 +17,8 @@
         </div>
     </div>
     <!--==============================
-    Products area
-    ============================== -->
+        Products area
+        ============================== -->
     <section class="products space">
         <div class="container">
             <div class="vs-sort-bar">
@@ -45,8 +44,12 @@
                             </div>
                             <div class="col-auto">
                                 <div class="nav" role="tablist">
-                                    <a href="#" class="icon-btn" id="tab-shop-list" data-bs-toggle="tab" data-bs-target="#tab-list" role="tab" aria-controls="tab-grid" aria-selected="false"><i class="fas fa-list"></i></a>
-                                    <a href="#" class="icon-btn active" id="tab-shop-grid" data-bs-toggle="tab" data-bs-target="#tab-grid" role="tab" aria-controls="tab-grid" aria-selected="true"><i class="fas fa-th"></i></a>
+                                    <a href="#" class="icon-btn" id="tab-shop-list" data-bs-toggle="tab"
+                                        data-bs-target="#tab-list" role="tab" aria-controls="tab-grid"
+                                        aria-selected="false"><i class="fas fa-list"></i></a>
+                                    <a href="#" class="icon-btn active" id="tab-shop-grid" data-bs-toggle="tab"
+                                        data-bs-target="#tab-grid" role="tab" aria-controls="tab-grid"
+                                        aria-selected="true"><i class="fas fa-th"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -55,62 +58,76 @@
             </div>
             <div class="row">
                 @forelse($products as $product)
-                <div class="col-lg-3">
-                    <div class="product-style2">
-                        <div class="product-img">
-                            @php
-                                $image = $product['images'][0] ?? null;
-                            @endphp
+                    <div class="col-lg-3">
+                        <div class="product-style2">
+                            <div class="product-img">
+                                @php
+                                    $image = $product['images'][0] ?? null;
+                                @endphp
 
-                            <img src="{{ $image ? env('BACKEND_URL') . '/storage/' . $image : asset('assets/img/product/product-1-1.png') }}"
-                                alt="product">
-                        </div>
+                                <img src="{{ $image ? env('BACKEND_URL') . '/storage/' . $image : asset('assets/img/product/product-1-1.png') }}"
+                                    alt="product">
+                            </div>
 
-                        <div class="product-about">
-                            <p class="text">{{ $product['size'] ?? 'Size' }}</p>
+                            <div class="product-about">
+                                <p class="text">{{ $product['size'] ?? 'Size' }}</p>
 
-                            <h2 class="product-title">
-                                <a href="{{ route('product-details', $product['slug']) }}">
-                                    {{ $product['name'] ?? 'Product' }}
-                                </a>
-                            </h2>
+                                <h2 class="product-title">
+                                    <a href="{{ route('product-details', $product['slug']) }}">
+                                        {{ $product['name'] ?? 'Product' }}
+                                    </a>
+                                </h2>
 
-                            <span class="price">
-                                <del>Rs.{{ $product['price'] ?? '0' }}</del>
-                                Rs.{{ $product['discount_price'] ?? '0' }}
-                            </span>
-                        </div>
-                        <div class="social-style">
-                            <ul>
-                                <li>
-                                    <form action="{{ route('cart.add') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="product_id" value="{{ $product['id'] }}">
-                                        <input type="hidden" name="product_name" value="{{ $product['name'] }}">
-                                        <input type="hidden" name="product_price" value="{{ $product['price'] }}">
-                                        <input type="hidden" name="product_image"
-                                            value="{{ $product['images'][0] ?? '' }}">
-                                        <input type="hidden" name="quantity" value="1">
-                                        <button type="submit" class="vs-btn">
-                                            <i class="far fa-shopping-basket"></i> Add to Cart
+                                <span class="price">
+                                    <del>Rs.{{ $product['price'] ?? '0' }}</del>
+                                    Rs.{{ $product['discount_price'] ?? '0' }}
+                                </span>
+                            </div>
+                            <div class="social-style">
+                                <ul>
+                                    <li>
+                                        <form action="{{ route('cart.add') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $product['id'] }}">
+                                            <input type="hidden" name="product_name" value="{{ $product['name'] }}">
+
+                                            {{-- ✅ Send discounted price as product_price --}}
+                                            <input type="hidden" name="product_price"
+                                                value="{{ $product['discount_price'] ?? $product['price'] }}">
+
+                                            {{-- ✅ Send original price for strikethrough display --}}
+                                            <input type="hidden" name="original_price" value="{{ $product['price'] }}">
+
+                                            {{-- ✅ Send discount percentage for badge --}}
+                                            <input type="hidden" name="discount_percentage"
+                                                value="{{ $product['discount_percentage'] ?? 0 }}">
+
+                                            <input type="hidden" name="product_slug" value="{{ $product['slug'] }}">
+                                            <input type="hidden" name="product_image"
+                                                value="{{ $product['images'][0] ?? '' }}">
+                                            <input type="hidden" name="quantity" value="1">
+                                            <button type="submit" class="vs-btn">
+                                                <i class="far fa-shopping-basket"></i> Add to Cart
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <button
+                                            class="icon-btn wishlist-toggle {{ in_array($product['id'], session('wishlist', [])) ? 'active' : '' }}"
+                                            data-product-id="{{ $product['id'] }}">
+                                            <i
+                                                class="{{ in_array($product['id'], session('wishlist', [])) ? 'fas' : 'far' }} fa-heart"></i>
                                         </button>
-                                    </form>
-                                </li>
-                                <li>
-    <button class="icon-btn wishlist-toggle {{ in_array($product['id'], session('wishlist', [])) ? 'active' : '' }}" 
-            data-product-id="{{ $product['id'] }}">
-        <i class="{{ in_array($product['id'], session('wishlist', [])) ? 'fas' : 'far' }} fa-heart"></i>
-    </button>
-</li>
-                            </ul>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @empty
-                <div class="col-12 text-center">
-                    <p>No Products Found</p>
-                </div>
-            @endforelse
+                @empty
+                    <div class="col-12 text-center">
+                        <p>No Products Found</p>
+                    </div>
+                @endforelse
             </div>
             <div class="vs-pagination text-center mb-0 mt-4">
                 <ul>
@@ -124,42 +141,42 @@
             </div>
         </div>
     </section>
-
-
 @endsection
 @push('scripts')
-<script>
-    // Wishlist toggle
-    document.querySelectorAll('.wishlist-toggle').forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const productId = this.dataset.productId;
-            const icon = this.querySelector('i');
-            
-            fetch("{{ route('wishlist.toggle') }}", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                },
-                body: JSON.stringify({ product_id: productId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    if (data.in_wishlist) {
-                        icon.classList.remove('far');
-                        icon.classList.add('fas');
-                        this.classList.add('active');
-                    } else {
-                        icon.classList.remove('fas');
-                        icon.classList.add('far');
-                        this.classList.remove('active');
-                    }
-                }
-            })
-            .catch(error => console.error('Error:', error));
+    <script>
+        // Wishlist toggle
+        document.querySelectorAll('.wishlist-toggle').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const productId = this.dataset.productId;
+                const icon = this.querySelector('i');
+
+                fetch("{{ route('wishlist.toggle') }}", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                        },
+                        body: JSON.stringify({
+                            product_id: productId
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            if (data.in_wishlist) {
+                                icon.classList.remove('far');
+                                icon.classList.add('fas');
+                                this.classList.add('active');
+                            } else {
+                                icon.classList.remove('fas');
+                                icon.classList.add('far');
+                                this.classList.remove('active');
+                            }
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
         });
-    });
-</script>
+    </script>
 @endpush

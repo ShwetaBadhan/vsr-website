@@ -25,13 +25,13 @@
                 <div class="col-lg-8">
                     <div class="vs-blog blog-single">
                         <div class="blog-img">
-                            <a href="blog-details.html"><img src="assets/img/blog/blog-s-1-1.png" alt="Blog Image"></a>
+                            <a href="{{ route('blog-details') }}"><img src="assets/img/blog/blog-s-1-1.png" alt="Blog Image"></a>
                         </div>
                         <div class="blog-content">
                             <div class="blog-meta">
                                 <a href="#"><i class="fal fa-tag"></i>Fresh Vegetables</a>
                             </div>
-                            <h2 class="blog-title"><a href="blog-details.html">Harvest London Publishes Its First Annua</a></h2>
+                            <h2 class="blog-title"><a href="{{ route('blog-details') }}">Harvest London Publishes Its First Annua</a></h2>
                             <p class="blog-text">Suspendisse potenti. Maecenas dapibus ac tellus sed pulvinar ulum bib volutpat. Sociis, a eget mollis, exercitationem famesSu dapibus ac tellus.</p>
                             <div class="blog-inner-author">
                                 <img src="assets/img/blog/blog-auth-1-1.png" alt="blog author">
@@ -42,14 +42,14 @@
                     </div>
                     <div class="vs-blog blog-single">
                         <div class="blog-img vs-carousel" data-arrows="true" data-autoplay="true" data-slide-show="1" data-fade="true">
-                            <a href="blog-details.html"><img src="assets/img/blog/blog-s-1-2.png" alt="Blog Image"></a>
-                            <a href="blog-details.html"><img src="assets/img/blog/blog-s-1-3.png" alt="Blog Image"></a>
+                            <a href="{{ route('blog-details') }}"><img src="assets/img/blog/blog-s-1-2.png" alt="Blog Image"></a>
+                            <a href="{{ route('blog-details') }}"><img src="assets/img/blog/blog-s-1-3.png" alt="Blog Image"></a>
                         </div>
                         <div class="blog-content">
                             <div class="blog-meta">
                                 <a href="#"><i class="fal fa-tag"></i>Fresh Vegetables</a>
                             </div>
-                            <h2 class="blog-title"><a href="blog-details.html">Harvest London Publishes Its First Annua</a></h2>
+                            <h2 class="blog-title"><a href="{{ route('blog-details') }}">Harvest London Publishes Its First Annua</a></h2>
                             <p class="blog-text">Suspendisse potenti. Maecenas dapibus ac tellus sed pulvinar ulum bib volutpat. Sociis, a eget mollis, exercitationem famesSu dapibus ac tellus.</p>
                             <div class="blog-inner-author">
                                 <img src="assets/img/blog/blog-auth-1-1.png" alt="blog author">
@@ -63,24 +63,7 @@
                             <div class="blog-meta">
                                 <a href="#"><i class="fal fa-tag"></i>Fresh Vegetables</a>
                             </div>
-                            <h2 class="blog-title"><a href="blog-details.html">Harvest London Publishes Its First Annua</a></h2>
-                            <p class="blog-text">Suspendisse potenti. Maecenas dapibus ac tellus sed pulvinar ulum bib volutpat. Sociis, a eget mollis, exercitationem famesSu dapibus ac tellus.</p>
-                            <div class="blog-inner-author">
-                                <img src="assets/img/blog/blog-auth-1-1.png" alt="blog author">
-                                by <a href="{{ route('blogs') }}">Jakki James</a>
-                                <a href="{{ route('blogs') }}" class="blog-date">Dec 13, 2024</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="vs-blog blog-single">
-                        <div class="blog-img">
-                            <a href="blog-details.html"><img src="assets/img/blog/blog-s-1-3.png" alt="Blog Image"></a>
-                        </div>
-                        <div class="blog-content">
-                            <div class="blog-meta">
-                                <a href="#"><i class="fal fa-tag"></i>Fresh Vegetables</a>
-                            </div>
-                            <h2 class="blog-title"><a href="blog-details.html">Harvest London Publishes Its First Annua</a></h2>
+                            <h2 class="blog-title"><a href="{{ route('blog-details') }}">Harvest London Publishes Its First Annua</a></h2>
                             <p class="blog-text">Suspendisse potenti. Maecenas dapibus ac tellus sed pulvinar ulum bib volutpat. Sociis, a eget mollis, exercitationem famesSu dapibus ac tellus.</p>
                             <div class="blog-inner-author">
                                 <img src="assets/img/blog/blog-auth-1-1.png" alt="blog author">
@@ -91,13 +74,13 @@
                     </div>
                     <div class="vs-blog blog-single">
                         <div class="blog-img">
-                            <a href="blog-details.html"><img src="assets/img/blog/blog-s-1-4.png" alt="Blog Image"></a>
+                            <a href="{{ route('blog-details') }}"><img src="assets/img/blog/blog-s-1-3.png" alt="Blog Image"></a>
                         </div>
                         <div class="blog-content">
                             <div class="blog-meta">
                                 <a href="#"><i class="fal fa-tag"></i>Fresh Vegetables</a>
                             </div>
-                            <h2 class="blog-title"><a href="blog-details.html">Harvest London Publishes Its First Annua</a></h2>
+                            <h2 class="blog-title"><a href="{{ route('blog-details') }}">Harvest London Publishes Its First Annua</a></h2>
                             <p class="blog-text">Suspendisse potenti. Maecenas dapibus ac tellus sed pulvinar ulum bib volutpat. Sociis, a eget mollis, exercitationem famesSu dapibus ac tellus.</p>
                             <div class="blog-inner-author">
                                 <img src="assets/img/blog/blog-auth-1-1.png" alt="blog author">
@@ -108,13 +91,30 @@
                     </div>
                     <div class="vs-blog blog-single">
                         <div class="blog-img">
-                            <a href="blog-details.html"><img src="assets/img/blog/blog-s-1-5.png" alt="Blog Image"></a>
+                            <a href="{{ route('blog-details') }}"><img src="assets/img/blog/blog-s-1-4.png" alt="Blog Image"></a>
                         </div>
                         <div class="blog-content">
                             <div class="blog-meta">
                                 <a href="#"><i class="fal fa-tag"></i>Fresh Vegetables</a>
                             </div>
-                            <h2 class="blog-title"><a href="blog-details.html">Harvest London Publishes Its First Annua</a></h2>
+                            <h2 class="blog-title"><a href="{{ route('blog-details') }}">Harvest London Publishes Its First Annua</a></h2>
+                            <p class="blog-text">Suspendisse potenti. Maecenas dapibus ac tellus sed pulvinar ulum bib volutpat. Sociis, a eget mollis, exercitationem famesSu dapibus ac tellus.</p>
+                            <div class="blog-inner-author">
+                                <img src="assets/img/blog/blog-auth-1-1.png" alt="blog author">
+                                by <a href="{{ route('blogs') }}">Jakki James</a>
+                                <a href="{{ route('blogs') }}" class="blog-date">Dec 13, 2024</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="vs-blog blog-single">
+                        <div class="blog-img">
+                            <a href="{{ route('blog-details') }}"><img src="assets/img/blog/blog-s-1-5.png" alt="Blog Image"></a>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <a href="#"><i class="fal fa-tag"></i>Fresh Vegetables</a>
+                            </div>
+                            <h2 class="blog-title"><a href="{{ route('blog-details') }}">Harvest London Publishes Its First Annua</a></h2>
                             <p class="blog-text">Suspendisse potenti. Maecenas dapibus ac tellus sed pulvinar ulum bib volutpat. Sociis, a eget mollis, exercitationem famesSu dapibus ac tellus.</p>
                             <div class="blog-inner-author">
                                 <img src="assets/img/blog/blog-auth-1-1.png" alt="blog author">
@@ -141,35 +141,35 @@
                             <div class="recent-post-wrap">
                                 <div class="recent-post">
                                     <div class="media-img">
-                                        <a href="blog-details.html"><img src="assets/img/blog/recent-post-1-1.jpg" alt="Blog Image"></a>
+                                        <a href="{{ route('blog-details') }}"><img src="assets/img/blog/recent-post-1-1.jpg" alt="Blog Image"></a>
                                     </div>
                                     <div class="media-body">
                                         <div class="recent-post-meta">
                                             <a href="{{ route('blogs') }}">Dec 13, 2024</a>
                                         </div>
-                                        <h4 class="post-title"><a class="text-inherit" href="blog-details.html">Learn React JS Tutorial For Beginners</a></h4>
+                                        <h4 class="post-title"><a class="text-inherit" href="{{ route('blog-details') }}">Learn React JS Tutorial For Beginners</a></h4>
                                     </div>
                                 </div>
                                 <div class="recent-post">
                                     <div class="media-img">
-                                        <a href="blog-details.html"><img src="assets/img/blog/recent-post-1-2.jpg" alt="Blog Image"></a>
+                                        <a href="{{ route('blog-details') }}"><img src="assets/img/blog/recent-post-1-2.jpg" alt="Blog Image"></a>
                                     </div>
                                     <div class="media-body">
                                         <div class="recent-post-meta">
                                             <a href="{{ route('blogs') }}">Jan 08, 2024</a>
                                         </div>
-                                        <h4 class="post-title"><a class="text-inherit" href="blog-details.html">Learn React JS Tutorial For Beginners</a></h4>
+                                        <h4 class="post-title"><a class="text-inherit" href="{{ route('blog-details') }}">Learn React JS Tutorial For Beginners</a></h4>
                                     </div>
                                 </div>
                                 <div class="recent-post">
                                     <div class="media-img">
-                                        <a href="blog-details.html"><img src="assets/img/blog/recent-post-1-3.jpg" alt="Blog Image"></a>
+                                        <a href="{{ route('blog-details') }}"><img src="assets/img/blog/recent-post-1-3.jpg" alt="Blog Image"></a>
                                     </div>
                                     <div class="media-body">
                                         <div class="recent-post-meta">
                                             <a href="{{ route('blogs') }}">Nov 07, 2024</a>
                                         </div>
-                                        <h4 class="post-title"><a class="text-inherit" href="blog-details.html">Learn React JS Tutorial For Beginners</a></h4>
+                                        <h4 class="post-title"><a class="text-inherit" href="{{ route('blog-details') }}">Learn React JS Tutorial For Beginners</a></h4>
                                     </div>
                                 </div>
                             </div>

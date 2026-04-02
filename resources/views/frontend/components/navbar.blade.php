@@ -47,26 +47,26 @@
                                </div>
                            </div>
                            <div class="col text-center">
-                              <div class="header-logo">
-    @php
-        $settings = $settings ?? null;
-        $whiteLogo = $settings?->white_logo ?? $settings['white_logo'] ?? null;
-        $blackLogo = $settings?->black_logo ?? $settings['black_logo'] ?? null;
-        $fallback = asset('assets/img/logo-2.png');
-    @endphp
+                               <div class="header-logo">
+                                   @php
+                                       $settings = $settings ?? null;
+                                       $whiteLogo = $settings?->white_logo ?? ($settings['white_logo'] ?? null);
+                                       $blackLogo = $settings?->black_logo ?? ($settings['black_logo'] ?? null);
+                                       $fallback = asset('assets/img/logo-2.png');
+                                   @endphp
 
-    <a class="logo1" href="{{ route('home') }}">
-        <img src="{{ $whiteLogo ?? $fallback }}" 
-             alt="{{ $settings?->company_name ?? 'Logo' }}" 
-             style="max-height: 50px; width: auto;">
-    </a>
-    
-    <a class="logo2" href="{{ route('home') }}">
-        <img src="{{ $blackLogo ?? $fallback }}" 
-             alt="{{ $settings?->company_name ?? 'Logo' }}" 
-             style="max-height: 50px; width: auto;">
-    </a>
-</div>
+                                   <a class="logo1" href="{{ route('home') }}">
+                                       <img src="{{ $whiteLogo ?? $fallback }}"
+                                           alt="{{ $settings?->company_name ?? 'Logo' }}"
+                                           style="max-height: 50px; width: auto;">
+                                   </a>
+
+                                   <a class="logo2" href="{{ route('home') }}">
+                                       <img src="{{ $blackLogo ?? $fallback }}"
+                                           alt="{{ $settings?->company_name ?? 'Logo' }}"
+                                           style="max-height: 50px; width: auto;">
+                                   </a>
+                               </div>
                            </div>
                            <div class="col-auto d-lg-none">
                                <button class="vs-menu-toggle d-inline-block">
@@ -75,8 +75,13 @@
                            </div>
                            <div class="col-auto d-lg-block d-none">
                                <div class="header-icons">
-                                   <a href="#" class="link-btn"><i class="fal fa-user"></i>Login</a>
-                                   <a href="{{ route('wishlist') }}" class="icon-btn"><i class="far fa-heart"></i></a>
+                                   <a href="{{ route('login') }}" class="link-btn"><i class="fal fa-user"></i>Login</a>
+                                   <a href="{{ route('wishlist') }}" class="icon-btn position-relative">
+                                       <i class="far fa-heart"></i>
+                                       <span class="badge" id="wishlistCountBadge">
+                                           {{ count(session('wishlist', [])) }}
+                                       </span>
+                                   </a>
                                    <a href="#" class="icon-btn style2 sideCartToggler">
                                        <i class="fal fa-shopping-cart"></i>
                                        <!-- ✅ Added ID for JavaScript targeting -->

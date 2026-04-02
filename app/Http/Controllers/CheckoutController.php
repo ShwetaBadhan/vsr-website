@@ -9,79 +9,105 @@ use Illuminate\Support\Str;
 
 class CheckoutController extends Controller
 {
-    public function index()
-    {
-        // Get cart items from session
-        $cartItems = session()->get('cart', []);
-        
-        if (empty($cartItems)) {
-            return redirect()->route('cart')->with('error', 'Your cart is empty');
-        }
-
-        // Fetch fresh product data from API for accurate pricing
-        $apiProducts = collect([]);
-        $response = Http::get(config('api.base_url') . '/products');
-        if ($response->successful()) {
-            $allProducts = $response->json()['products'] ?? [];
-            $apiProducts = collect($allProducts)->keyBy('id');
-        }
-
-        // Calculate cart totals
-        $subtotal = 0;
-        $formattedItems = [];
-
-        foreach ($cartItems as $key => $item) {
-            // 🔧 Handle both 'product_id' and 'id' keys
-            $productId = $item['product_id'] ?? $item['id'] ?? null;
-            
-            if (!$productId) {
-                Log::warning('Cart item missing product ID', ['item' => $item, 'cart_key' => $key]);
-                continue; // Skip invalid items
-            }
-
-            $product = $apiProducts->get($productId);
-            
-            // 🔧 Fallback pricing: API → cart item → default
-            $price = $product['discount_price'] 
-                    ?? $product['price'] 
-                    ?? $item['price'] 
-                    ?? $item['product_price'] 
-                    ?? 0;
-            
-            $quantity = max(1, (int)($item['quantity'] ?? 1)); // Ensure positive integer
-            $lineTotal = $price * $quantity;
-            $subtotal += $lineTotal;
-
-            $formattedItems[] = [
-                'id' => $productId,
-                'name' => $item['product_name'] ?? $item['name'] ?? $product['name'] ?? 'Product',
-                'price' => $price,
-                'quantity' => $quantity,
-                'total' => $lineTotal,
-                'image' => $item['product_image'] ?? $item['image'] ?? ($product['images'][0] ?? null),
-                'slug' => $product['slug'] ?? '#'
-            ];
-        }
-
-        // If no valid items after filtering
-        if (empty($formattedItems)) {
-            session()->forget('cart');
-            return redirect()->route('cart')->with('error', 'Your cart contains invalid items');
-        }
-
-        // Shipping calculation
-        $shipping = $subtotal > 1000 ? 0 : 50; // Free shipping over Rs.1000
-        $total = $subtotal + $shipping;
-
-        return view('frontend.pages.checkout', [
-            'cartItems' => $formattedItems,
-            'subtotal' => $subtotal,
-            'shipping' => $shipping,
-            'total' => $total,
-            'customer' => session()->get('customer_data', [])
-        ]);
+    /**
+     * Display checkout page with cart items
+     */
+   public function index()
+{
+    // Get cart items from session
+    $cartItems = session()->get('cart', []);
+    
+    if (empty($cartItems)) {
+        return redirect()->route('cart')->with('error', 'Your cart is empty');
     }
 
+    // Fetch fresh product data from API for accurate pricing
+    $apiProducts = collect([]);
+    try {
+        $response = Http::timeout(10)->get(config('api.base_url') . '/products');
+        if ($response->successful()) {
+            $allProducts = $response->json()['products'] ?? $response->json()['data'] ?? [];
+            $apiProducts = collect($allProducts)->keyBy('id');
+        }
+    } catch (\Exception $e) {
+        Log::warning('Failed to fetch products from API: ' . $e->getMessage());
+        // Continue with cart data only - don't block checkout
+    }
+
+    // Calculate cart totals
+    $subtotal = 0;
+    $formattedItems = [];
+
+    // ✅ START FOREACH LOOP
+    foreach ($cartItems as $key => $item) {
+        // Use array key as product_id (how cart is structured)
+        $productId = is_numeric($key) ? (int) $key : ($item['product_id'] ?? $item['id'] ?? null);
+        
+        if (!$productId) {
+            Log::warning('Cart item missing product ID', ['item' => $item, 'cart_key' => $key]);
+            continue;
+        }
+
+        // Safe API product lookup
+        $product = $apiProducts->get($productId);
+        
+        // Safe price fallback chain
+        $price = 0;
+        if ($product && is_array($product)) {
+            $price = $product['discount_price'] ?? $product['price'] ?? 0;
+        }
+        if ($price == 0) {
+            $price = $item['price'] ?? $item['product_price'] ?? 0;
+        }
+        
+        $quantity = max(1, (int)($item['quantity'] ?? 1));
+        $lineTotal = $price * $quantity;
+        $subtotal += $lineTotal;
+
+        // Safe image URL handling
+        $image = null;
+        if ($product && is_array($product) && !empty($product['images'])) {
+            $image = is_array($product['images']) ? ($product['images'][0] ?? null) : $product['images'];
+        }
+        if (empty($image)) {
+            $image = $item['product_image'] ?? $item['image'] ?? null;
+        }
+
+        // ✅ THIS MUST BE INSIDE THE FOREACH LOOP
+      $formattedItems[] = [
+    'id' => $productId,
+    'name' => $item['product_name'] 
+                ?? $item['name'] 
+                ?? (isset($product['name']) ? $product['name'] : 'Product'),
+    'price' => (float) $price,
+    'quantity' => $quantity,
+    'total' => $lineTotal,
+    'image' => $image,
+    'slug' => isset($product['slug']) ? $product['slug'] : ($item['slug'] ?? '#')
+];
+    } // ✅ END FOREACH LOOP
+
+    // If no valid items after filtering
+    if (empty($formattedItems)) {
+        session()->forget('cart');
+        return redirect()->route('cart')->with('error', 'Your cart contains invalid items');
+    }
+
+    // Shipping calculation
+    $shipping = $subtotal > 1000 ? 0 : 50;
+    $total = $subtotal + $shipping;
+
+    return view('frontend.pages.checkout', [
+        'cartItems' => $formattedItems,
+        'subtotal' => $subtotal,
+        'shipping' => $shipping,
+        'total' => $total,
+        'customer' => session()->get('customer_data', [])
+    ]);
+}
+    /**
+     * Update shipping cost via AJAX
+     */
     public function updateShipping(Request $request)
     {
         $request->validate([
@@ -94,7 +120,6 @@ class CheckoutController extends Controller
         $subtotal = 0;
         
         foreach ($cartItems as $item) {
-            $productId = $item['product_id'] ?? $item['id'] ?? null;
             $price = $item['price'] ?? $item['product_price'] ?? 0;
             $quantity = max(1, (int)($item['quantity'] ?? 1));
             $subtotal += $price * $quantity;
@@ -110,6 +135,9 @@ class CheckoutController extends Controller
         ]);
     }
 
+    /**
+     * Process checkout and create order
+     */
     public function process(Request $request)
     {
         // Validate billing details
@@ -134,12 +162,17 @@ class CheckoutController extends Controller
             return back()->with('error', 'Your cart is empty');
         }
 
-        // Fetch product data
+        // Fetch product data from API
         $apiProducts = collect([]);
-        $response = Http::get(config('api.base_url') . '/products');
-        if ($response->successful()) {
-            $allProducts = $response->json()['products'] ?? [];
-            $apiProducts = collect($allProducts)->keyBy('id');
+        try {
+            $response = Http::timeout(10)->get(config('api.base_url') . '/products');
+            if ($response->successful()) {
+                $allProducts = $response->json()['products'] ?? $response->json()['data'] ?? [];
+                $apiProducts = collect($allProducts)->keyBy('id');
+            }
+        } catch (\Exception $e) {
+            Log::warning('API fetch failed during checkout: ' . $e->getMessage());
+            // Continue with cart data only
         }
 
         // Prepare order items with defensive key handling
@@ -147,21 +180,30 @@ class CheckoutController extends Controller
         $orderTotal = 0;
 
         foreach ($cartItems as $cartKey => $item) {
-    // Use array key as product_id since that's how your cart is structured
-    $productId = is_numeric($cartKey) ? (int) $cartKey : null;
-    
-    if (!$productId) {
-        Log::warning('Invalid cart key', ['key' => $cartKey]);
-        continue;
-    }
+            // Use array key as product_id (how cart is structured)
+            $productId = is_numeric($cartKey) ? (int) $cartKey : null;
+            
+            if (!$productId) {
+                Log::warning('Invalid cart key', ['key' => $cartKey]);
+                continue;
+            }
 
-    $product = $apiProducts->get($productId);
-    $price = $product['discount_price'] ?? $product['price'] ?? $item['price'] ?? 0;
-    $quantity = max(1, (int)($item['quantity'] ?? 1));
+            $product = $apiProducts->get($productId);
+            
+            // 🔧 Safe price lookup with fallbacks
+            $price = 0;
+            if ($product && is_array($product)) {
+                $price = $product['discount_price'] ?? $product['price'] ?? 0;
+            }
+            if ($price == 0) {
+                $price = $item['price'] ?? $item['product_price'] ?? 0;
+            }
+            
+            $quantity = max(1, (int)($item['quantity'] ?? 1));
             
             $orderItems[] = [
                 'product_id' => $productId,
-                'product_name' => $item['product_name'] ?? $item['name'] ?? $product['name'] ?? 'Unknown',
+                'product_name' => $item['product_name'] ?? $item['name'] ?? ($product['name'] ?? 'Unknown'),
                 'price' => $price,
                 'quantity' => $quantity,
                 'subtotal' => $price * $quantity
@@ -234,7 +276,7 @@ class CheckoutController extends Controller
             ]);
         }
 
-        // Fallback: Clear cart and show success (or implement local DB save)
+        // Fallback: Clear cart and show success
         $this->clearCartAndRedirect($orderData, true);
         return redirect()->route('checkout.success');
     }
@@ -255,6 +297,9 @@ class CheckoutController extends Controller
         ]);
     }
 
+    /**
+     * Display order success page
+     */
     public function success()
     {
         $order = session()->get('last_order');
@@ -266,6 +311,9 @@ class CheckoutController extends Controller
         return view('frontend.pages.checkout-success', compact('order'));
     }
 
+    /**
+     * Display order cancelled page
+     */
     public function cancel()
     {
         return redirect()->route('checkout')->with('info', 'Order cancelled. You can try again anytime.');

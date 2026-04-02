@@ -95,8 +95,26 @@
                                 <p class="product-price"> Rs.{{ $product['discount_price'] ?? '0' }}
                                     <del>Rs.{{ $product['price'] ?? '0' }}</del></p>
                                 <p>Free Shipping On This Item</p>
-                                <a href="{{ route('cart') }}" class="vs-btn"><i class="far fa-shopping-basket"></i>Add to
-                                    Cart</a>
+                               <form action="{{ route('cart.add') }}" method="POST" id="addToCartForm" class="d-inline">
+    @csrf
+    {{-- Required hidden fields --}}
+    <input type="hidden" name="product_id" value="{{ $product['id'] }}">
+    <input type="hidden" name="product_name" value="{{ $product['name'] }}">
+    <input type="hidden" name="product_slug" value="{{ $product['slug'] ?? 'product-' . $product['id'] }}">
+    <input type="hidden" name="product_image" value="{{ $product['images'][0] ?? '' }}">
+    
+    {{-- Price fields for discount logic --}}
+    <input type="hidden" name="product_price" value="{{ $product['discount_price'] ?? $product['price'] }}">
+    <input type="hidden" name="original_price" value="{{ $product['price'] }}">
+    <input type="hidden" name="discount_percentage" value="{{ $product['discount_percentage'] ?? 0 }}">
+    
+    {{-- ✅ Quantity field - yahi value cart mein jayegi --}}
+    <input type="hidden" name="quantity" id="form_quantity" value="1">
+    
+    <button type="submit" class="vs-btn add-to-cart-btn">
+        <i class="far fa-shopping-basket"></i> Add to Cart
+    </button>
+</form>
                                 <a href="#" class="icon-btn"><i class="far fa-heart"></i></a>
                             </div>
                             <div class="product_meta">
@@ -334,3 +352,93 @@
     </div>
 
 @endsection
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // ✅ Quantity Buttons - Update both input AND hidden form field
+    const qtyInput = document.querySelector('.qty-input');
+    const formQuantity = document.getElementById('form_quantity');
+    
+    document.querySelector('.quantity-plus')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        let qty = parseInt(qtyInput.value) || 1;
+        qty = Math.min(100, qty + 1); // Max 100
+        qtyInput.value = qty;
+        if(formQuantity) formQuantity.value = qty; // ✅ Sync with form
+    });
+    
+    document.querySelector('.quantity-minus')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        let qty = parseInt(qtyInput.value) || 1;
+        qty = Math.max(1, qty - 1); // Min 1
+        qtyInput.value = qty;
+        if(formQuantity) formQuantity.value = qty; // ✅ Sync with form
+    });
+    
+    // ✅ Manual input change - bhi sync kare
+    qtyInput?.addEventListener('change', function() {
+        let val = parseInt(this.value) || 1;
+        val = Math.max(1, Math.min(100, val));
+        this.value = val;
+        if(formQuantity) formQuantity.value = val; // ✅ Sync with form
+    });
+
+    // ✅ AJAX Add to Cart (Optional - agar aap bina page reload ke cart update karna chahti hain)
+    const cartForm = document.getElementById('addToCartForm');
+    if(cartForm) {
+        cartForm.addEventListener('submit', function(e) {
+            // Agar aap AJAX use karna chahti hain toh uncomment karein:
+            /*
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const btn = this.querySelector('.add-to-cart-btn');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
+            btn.disabled = true;
+            
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    // Update side cart badge
+                    const badge = document.getElementById('cartCountBadge');
+                    if(badge) badge.textContent = data.cart_count;
+                    
+                    // Show success toast
+                    if(typeof Swal !== 'undefined') {
+                        Swal.fire({
+                            title: 'Added!',
+                            text: data.message,
+                            icon: 'success',
+                            timer: 2000,
+                            showConfirmButton: false,
+                            toast: true,
+                            position: 'top-end'
+                        });
+                    }
+                }
+            })
+            .catch(err => console.error(err))
+            .finally(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+            */
+            
+        
+        });
+    }
+});
+</script>
+@endpush
