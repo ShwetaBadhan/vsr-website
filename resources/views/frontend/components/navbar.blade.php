@@ -75,21 +75,70 @@
                            </div>
                            <div class="col-auto d-lg-block d-none">
                                <div class="header-icons">
-                                   <a href="{{ route('login') }}" class="link-btn"><i class="fal fa-user"></i>Login</a>
-                                   <a href="{{ route('wishlist') }}" class="icon-btn position-relative">
-                                       <i class="far fa-heart"></i>
-                                       <span class="badge" id="wishlistCountBadge">
-                                           {{ count(session('wishlist', [])) }}
-                                       </span>
-                                   </a>
-                                   <a href="#" class="icon-btn style2 sideCartToggler">
-                                       <i class="fal fa-shopping-cart"></i>
-                                       <!-- ✅ Added ID for JavaScript targeting -->
-                                       <span class="badge" id="cartCountBadge">
-                                           {{ array_sum(array_column(session('cart', []), 'quantity')) }}
-                                       </span>
-                                   </a>
-                               </div>
+    
+    {{-- 🔹 Auth Check: Logged In vs Guest --}}
+    @auth
+        <!-- User Dropdown -->
+        <div class="dropdown">
+            <a href="#" class="link-btn dropdown-toggle" id="userDropdown" 
+               data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fal fa-user"></i>
+                {{ Auth::user()->name }}
+            </a>
+            
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" style="min-width: 200px;">
+               
+                <!-- Orders Link (Optional) -->
+                {{-- <li>
+                    <a class="dropdown-item py-2 px-3" href="{{ route('orders.index') }}">
+                        <i class="far fa-shopping-bag me-2 text-muted"></i>My Orders
+                    </a>
+                </li>
+                 --}}
+                <!-- Wishlist Link (Optional) -->
+                <li>
+                    <a class="dropdown-item py-2 px-3" href="{{ route('wishlist') }}">
+                        <i class="far fa-heart me-2 text-muted"></i>Wishlist
+                    </a>
+                </li>
+                
+                <li><hr class="dropdown-divider my-1"></li>
+                
+                <!-- Logout -->
+                <li>
+                    <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                        @csrf
+                        <button type="submit" class="dropdown-item py-2 px-3 text-danger border-0 bg-transparent w-100 text-start">
+                            <i class="far fa-sign-out me-2"></i>Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    @else
+        <!-- Guest: Show Login Link -->
+        <a href="{{ route('login') }}" class="link-btn">
+            <i class="fal fa-user"></i>Login
+        </a>
+    @endauth
+    
+    {{-- Wishlist Icon --}}
+    <a href="{{ route('wishlist') }}" class="icon-btn position-relative">
+        <i class="far fa-heart"></i>
+        <span class="badge" id="wishlistCountBadge">
+            {{ count(session('wishlist', [])) }}
+        </span>
+    </a>
+    
+    {{-- Cart Icon --}}
+    <a href="#" class="icon-btn style2 sideCartToggler">
+        <i class="fal fa-shopping-cart"></i>
+        <span class="badge" id="cartCountBadge">
+            {{ array_sum(array_column(session('cart', []), 'quantity')) }}
+        </span>
+    </a>
+    
+</div>
                            </div>
                        </div>
                    </div>

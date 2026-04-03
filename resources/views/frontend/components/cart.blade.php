@@ -62,11 +62,4 @@
         </div>
     </div>
 
-    {{-- ✅ Cart Count Badge (Header mein dikhane ke liye) --}}
-    @php
-        $cartCount = array_sum(array_column(session('cart', []), 'quantity'));
-    @endphp
-    <span class="cart-count-badge" id="cartCountBadge"
-        style="position: absolute; top: -5px; right: -5px; background: #d33; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; display: flex; align-items: center; justify-content: center;">
-        {{ $cartCount }}
-    </span>
+ 

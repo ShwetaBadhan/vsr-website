@@ -45,16 +45,18 @@
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $product['id'] }}">
                                         <input type="hidden" name="product_name" value="{{ $product['name'] }}">
-                                         
-        {{-- ✅ Send discounted price as product_price --}}
-        <input type="hidden" name="product_price" value="{{ $product['discount_price'] ?? $product['price'] }}">
-        
-        {{-- ✅ Send original price for strikethrough display --}}
-        <input type="hidden" name="original_price" value="{{ $product['price'] }}">
-        
-        {{-- ✅ Send discount percentage for badge --}}
-        <input type="hidden" name="discount_percentage" value="{{ $product['discount_percentage'] ?? 0 }}">
-        
+
+                                        {{-- ✅ Send discounted price as product_price --}}
+                                        <input type="hidden" name="product_price"
+                                            value="{{ $product['discount_price'] ?? $product['price'] }}">
+
+                                        {{-- ✅ Send original price for strikethrough display --}}
+                                        <input type="hidden" name="original_price" value="{{ $product['price'] }}">
+
+                                        {{-- ✅ Send discount percentage for badge --}}
+                                        <input type="hidden" name="discount_percentage"
+                                            value="{{ $product['discount_percentage'] ?? 0 }}">
+
                                         <input type="hidden" name="product_slug" value="{{ $product['slug'] }}">
                                         <input type="hidden" name="product_image"
                                             value="{{ $product['images'][0] ?? '' }}">
@@ -66,11 +68,11 @@
                                 </li>
                                 <li>
                                     <button
-                                            class="icon-btn wishlist-toggle {{ in_array($product['id'], session('wishlist', [])) ? 'active' : '' }}"
-                                            data-product-id="{{ $product['id'] }}">
-                                            <i
-                                                class="{{ in_array($product['id'], session('wishlist', [])) ? 'fas' : 'far' }} fa-heart"></i>
-                                        </button>
+                                        class="icon-btn wishlist-toggle {{ in_array($product['id'], session('wishlist', [])) ? 'active' : '' }}"
+                                        data-product-id="{{ $product['id'] }}">
+                                        <i
+                                            class="{{ in_array($product['id'], session('wishlist', [])) ? 'fas' : 'far' }} fa-heart"></i>
+                                    </button>
                                 </li>
                                 </li>
                             </ul>

@@ -1,3 +1,4 @@
+
 @extends('frontend.layout.master')
 
 @section('content')
@@ -40,220 +41,246 @@
                     </div>
                 @endif
                 
-                <div class="auth-wrapper">
-                    <div class="auth-header text-center mb-4">
-                        <h2>Welcome Back</h2>
-                        <p class="text-muted">Login to your account to continue</p>
-                    </div>
+               {{-- 🔹 UPDATED CONDITION - Query string + Session dono check karein --}}
+@php
+    $showOtpForm = 
+        request('verify_otp') == 1 && request('otp_email') ||
+        (session('otp_step') == 'verify' && session('otp_email'));
+    
+    $otpEmail = request('otp_email') ?: session('otp_email');
+@endphp
+
+@if($showOtpForm)
+    <!-- 🔹 OTP Verification Form -->
+    <div class="auth-wrapper">
+        <div class="auth-header text-center mb-4">
+            <h2>Verify OTP</h2>
+            <p class="text-muted">
+                Enter the 6-digit code sent to <strong>{{ $otpEmail }}</strong>
+            </p>
+        </div>
+        
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+        
+        <form method="POST" action="{{ route('verify-otp') }}" id="otpVerifyForm">
+            @csrf
+            <input type="hidden" name="email" value="{{ $otpEmail }}">
+            <input type="hidden" name="type" value="{{ request('type') ?: session('otp_type', 'login') }}">
+            
+            <div class="form-group mb-4">
+                <label for="otp" class="text-center d-block mb-2">One-Time Password</label>
+                <input type="text" 
+                       class="form-control text-center fs-4 fw-bold @error('otp') is-invalid @enderror" 
+                       id="otp" 
+                       name="otp" 
+                       maxlength="6" 
+                       pattern="\d{6}"
+                       inputmode="numeric"
+                       required 
+                       placeholder="••••••"
+                       style="letter-spacing: 10px;"
+                       autofocus>
+                @error('otp')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+                <small class="text-muted d-block mt-2 text-center">
+                    OTP expires in 10 minutes
+                </small>
+            </div>
+            
+            <button type="submit" class="vs-btn w-100 mb-3" id="verifyBtn">
+                <span class="btn-text">Verify & Login</span>
+                <span class="btn-loading" style="display:none;">
+                    <i class="fas fa-spinner fa-spin me-2"></i>Verifying...
+                </span>
+            </button>
+            
+            <div class="text-center mb-3">
+                <small class="text-muted">
+                    Didn't receive code? 
+                    <button type="submit" form="resendOtpForm" class="btn btn-link p-0 border-0 text-primary text-decoration-none">
+                        Resend OTP
+                    </button>
+                </small>
+            </div>
+        </form>
+        
+        <form id="resendOtpForm" method="POST" action="{{ route('resend-otp') }}" class="d-none">
+            @csrf
+            <input type="hidden" name="email" value="{{ $otpEmail }}">
+            <input type="hidden" name="type" value="{{ request('type') ?: session('otp_type', 'login') }}">
+        </form>
+        
+        <div class="text-center mt-4 pt-3 border-top">
+            <a href="{{ route('login') }}" class="text-muted text-decoration-none">
+                ← Back to password login
+            </a>
+        </div>
+    </div>
+    
                     
-                    <form method="POST" action="{{ route('login') }}" id="loginForm">
-                        @csrf
-                        
-                        <div class="form-group mb-3">
-                            <label for="email">Email Address <span class="text-danger">*</span></label>
-                            <input type="email" 
-                                   class="form-control @error('email') is-invalid @enderror" 
-                                   id="email" 
-                                   name="email" 
-                                   value="{{ old('email') }}" 
-                                   required 
-                                   autofocus
-                                   placeholder="Enter your email">
-                            @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                @else
+                    <!-- 🔹 Traditional Login Form -->
+                    <div class="auth-wrapper">
+                        <div class="auth-header text-center mb-4">
+                            <h2>Welcome Back</h2>
+                            <p class="text-muted">Login to your account to continue</p>
                         </div>
                         
-                        <div class="form-group mb-3">
-                            <label for="password">Password <span class="text-danger">*</span></label>
-                            <div class="input-group">
-                                <input type="password" 
-                                       class="form-control @error('password') is-invalid @enderror" 
-                                       id="password" 
-                                       name="password" 
+                        <form method="POST" action="{{ route('login') }}" id="loginForm">
+                            @csrf
+                            
+                            <div class="form-group mb-3">
+                                <label for="email">Email Address <span class="text-danger">*</span></label>
+                                <input type="email" 
+                                       class="form-control @error('email') is-invalid @enderror" 
+                                       id="email" 
+                                       name="email" 
+                                       value="{{ old('email') }}" 
                                        required 
-                                       placeholder="Enter your password">
-                                <button type="button" class="input-group-text bg-white border-start-0" id="togglePassword">
-                                    <i class="far fa-eye"></i>
-                                </button>
+                                       autofocus
+                                       placeholder="Enter your email">
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
-                            @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                            
+                            <div class="form-group mb-3">
+                                <label for="password">Password <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input type="password" 
+                                           class="form-control @error('password') is-invalid @enderror" 
+                                           id="password" 
+                                           name="password" 
+                                           required 
+                                           placeholder="Enter your password">
+                                    <button type="button" class="input-group-text bg-white border-start-0" id="togglePassword">
+                                        <i class="far fa-eye"></i>
+                                    </button>
+                                </div>
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            
+                            <div class="form-group mb-4 d-flex justify-content-between align-items-center">
+                                <div class="custom-checkbox">
+                                    <input type="checkbox" id="remember" name="remember">
+                                    <label for="remember" class="mb-0">Remember Me</label>
+                                </div>
+                                <a href="{{ route('password.request') }}" class="text-muted small">
+                                    Forgot Password?
+                                </a>
+                            </div>
+                            
+                            <button type="submit" class="vs-btn w-100 mb-3" id="loginBtn">
+                                <span class="btn-text">Login</span>
+                                <span class="btn-loading" style="display:none;">
+                                    <i class="fas fa-spinner fa-spin me-2"></i>Logging in...
                                 </span>
-                            @enderror
+                            </button>
+                            
+                        </form>
+                        
+                        <!-- 🔹 OTP Login Trigger -->
+                        <div class="text-center my-3">
+                            <span class="text-muted small">or</span>
                         </div>
                         
-                        <div class="form-group mb-4 d-flex justify-content-between align-items-center">
-                            <div class="custom-checkbox">
-                                <input type="checkbox" id="remember" name="remember">
-                                <label for="remember" class="mb-0">Remember Me</label>
+                        <form method="POST" action="{{ route('request-otp') }}">
+                            @csrf
+                            <input type="hidden" name="type" value="login">
+                            <div class="input-group">
+                                <input type="email" 
+                                       name="email" 
+                                       class="form-control" 
+                                       placeholder="Enter email for OTP login"
+                                       value="{{ old('email') }}"
+                                       required>
+                                <button type="submit" class="vs-btn">Get OTP</button>
                             </div>
-                            <a href="{{ route('password.request') }}" class="text-muted small">
-                                Forgot Password?
-                            </a>
+                            @error('email')
+                                <span class="text-danger small">{{ $message }}</span>
+                            @enderror
+                        </form>
+                        
+                        <div class="auth-footer text-center mt-4">
+                            <p class="mb-0">
+                                Don't have an account? 
+                                <a href="{{ route('register') }}" class="text-primary fw-medium">Register Now</a>
+                            </p>
                         </div>
                         
-                        <button type="submit" class="vs-btn w-100 mb-3" id="loginBtn">
-                            <span class="btn-text">Login</span>
-                            <span class="btn-loading" style="display:none;">
-                                <i class="fas fa-spinner fa-spin me-2"></i>Logging in...
-                            </span>
-                        </button>
+                        <!-- Social Login (Optional) -->
+                        {{-- <div class="auth-divider my-4">
+                            <span>or continue with</span>
+                        </div> --}}
                         
-                    </form>
-                    
-                    <div class="auth-footer text-center">
-                        <p class="mb-0">
-                            Don't have an account? 
-                            <a href="{{ route('register') }}" class="text-primary fw-medium">Register Now</a>
-                        </p>
+                        {{-- <div class="social-login d-flex gap-2 justify-content-center">
+                            <a href="{{ route('auth.google') }}" class="social-btn google">
+                                <i class="fab fa-google"></i>
+                            </a>
+                            <a href="#" class="social-btn facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="social-btn apple">
+                                <i class="fab fa-apple"></i>
+                            </a>
+                        </div> --}}
+                        
                     </div>
-                    
-                    <!-- Optional: Social Login -->
-                    <div class="auth-divider my-4">
-                        <span>or continue with</span>
-                    </div>
-                    
-                    <div class="social-login d-flex gap-2 justify-content-center">
-                        <a href="{{ route('auth.google') }}" class="social-btn google">
-                            <i class="fab fa-google"></i>
-                        </a>
-                        <a href="#" class="social-btn facebook">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="social-btn apple">
-                            <i class="fab fa-apple"></i>
-                        </a>
-                    </div>
-                    
-                </div>
+                @endif
+                
             </div>
         </div>
     </div>
 </section>
 @endsection
 
-@push('styles')
-<style>
-    .auth-wrapper {
-        background: #fff;
-        border-radius: 12px;
-        padding: 40px 30px;
-        box-shadow: 0 5px 30px rgba(0,0,0,0.08);
-    }
-    .auth-header h2 {
-        font-size: 24px;
-        font-weight: 600;
-        margin-bottom: 8px;
-    }
-    .form-control {
-        border: 1px solid #e0e0e0;
-        padding: 12px 16px;
-        border-radius: 8px;
-        transition: border-color 0.2s;
-    }
-    .form-control:focus {
-        border-color: #3498db;
-        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-    }
-    .input-group-text {
-        cursor: pointer;
-        border-radius: 0 8px 8px 0;
-    }
-    .custom-checkbox input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-        margin-right: 6px;
-        cursor: pointer;
-    }
-    .auth-divider {
-        position: relative;
-        text-align: center;
-        color: #999;
-        font-size: 13px;
-    }
-    .auth-divider::before,
-    .auth-divider::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        width: 40%;
-        height: 1px;
-        background: #e0e0e0;
-    }
-    .auth-divider::before { left: 0; }
-    .auth-divider::after { right: 0; }
-    .social-btn {
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #e0e0e0;
-        color: #666;
-        transition: all 0.2s;
-        text-decoration: none;
-    }
-    .social-btn:hover {
-        border-color: #3498db;
-        color: #3498db;
-        transform: translateY(-2px);
-    }
-    .social-btn.google:hover { color: #db4437; border-color: #db4437; }
-    .social-btn.facebook:hover { color: #4267B2; border-color: #4267B2; }
-    .social-btn.apple:hover { color: #000; border-color: #000; }
-</style>
-@endpush
+
 
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    
     // 🔹 Toggle Password Visibility
     const togglePassword = document.getElementById('togglePassword');
     const passwordInput = document.getElementById('password');
-    
     togglePassword?.addEventListener('click', function() {
         const type = passwordInput.type === 'password' ? 'text' : 'password';
         passwordInput.type = type;
         this.querySelector('i').className = type === 'password' ? 'far fa-eye' : 'far fa-eye-slash';
     });
     
-    // 🔹 Form Submission with Loading State
-    const loginForm = document.getElementById('loginForm');
-    const loginBtn = document.getElementById('loginBtn');
-    
-    loginForm?.addEventListener('submit', function(e) {
-        const btnText = loginBtn.querySelector('.btn-text');
-        const btnLoading = loginBtn.querySelector('.btn-loading');
-        
-        // Show loading state
-        btnText.style.display = 'none';
-        btnLoading.style.display = 'inline';
-        loginBtn.disabled = true;
-        
-        // Allow form to submit normally (server-side validation)
-        // If you want AJAX, preventDefault and use fetch() instead
+    // 🔹 Loading State for Traditional Forms (Minimal JS)
+    const forms = ['loginForm', 'otpVerifyForm'];
+    forms.forEach(formId => {
+        const form = document.getElementById(formId);
+        const btn = form?.querySelector('button[type="submit"]');
+        form?.addEventListener('submit', function() {
+            const btnText = btn?.querySelector('.btn-text');
+            const btnLoading = btn?.querySelector('.btn-loading');
+            if (btnText && btnLoading) {
+                btnText.style.display = 'none';
+                btnLoading.style.display = 'inline';
+                btn.disabled = true;
+            }
+        });
     });
     
-    // 🔹 Show Validation Errors via SweetAlert (Optional Enhancement)
-    @if($errors->any())
-        @if(session('success'))
-            // Success handled by Bootstrap alert above
-        @else
-            Swal.fire({
-                icon: 'error',
-                title: 'Login Failed',
-                text: '{{ $errors->first() }}',
-                confirmButtonColor: '#3498db'
-            });
-        @endif
-    @endif
-    
+    // 🔹 Auto-focus OTP input
+    const otpInput = document.getElementById('otp');
+    otpInput?.focus();
 });
 </script>
 @endpush

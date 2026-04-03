@@ -1,7 +1,7 @@
 <!--==============================
     Blog Area
-============================== -->
-<section class="blog-layout2 space-top">
+    ============================== -->
+<section class="blog-layout1 space">
     <div class="container">
         <div class="title-area text-center wow fadeInUp wow-animated" data-wow-delay="0.3s">
             <div class="title-img">
@@ -11,91 +11,149 @@
             <h2 class="sec-title">Recent Articles</h2>
         </div>
         
-        {{-- ✅ Safe null/array check --}}
-        @if(isset($blogs) && is_array($blogs) && count($blogs) > 0)
-        <div class="row gx-5 vs-carousel" data-slide-show="2" data-lg-slide-show="2" data-md-slide-show="2"
-            data-autoplay="true" data-arrows="true">
-            @foreach(array_slice($blogs, 0, 3) as $blog)
-            <div class="col-lg-6">
+        <div class="row vs-carousel" data-slide-show="3" data-lg-slide-show="3" data-md-slide-show="2" data-autoplay="true" data-arrows="true">
+            
+            {{-- ✅ Dynamic Blogs Loop --}}
+            @forelse(array_slice($blogs ?? [], 0, 4) as $blog)
+            @php
+                // Map category_ids to category names
+                $categoryIds = $blog['category_ids'] ?? [];
+                $categoryNames = [];
+                
+                if (!empty($categoryIds) && !empty($blogCategories)) {
+                    foreach ($categoryIds as $catId) {
+                        $category = collect($blogCategories)->firstWhere('id', (int) $catId);
+                        if ($category) {
+                            $categoryNames[] = $category['name'];
+                        }
+                    }
+                }
+                $categoryDisplay = !empty($categoryNames) 
+                    ? strtoupper(implode(', ', $categoryNames)) 
+                    : 'UNCATEGORIZED';
+                
+                // Build image URL - API returns "blogs/filename.png"
+                $imageUrl = !empty($blog['image']) 
+                    ? (env('BACKEND_URL', '') . '/storage/' . $blog['image'])
+                    : asset('assets/img/blog/blog-img-1-1.jpg');
+                
+                // Format date
+                $publishedDate = !empty($blog['published_at']) 
+                    ? \Carbon\Carbon::parse($blog['published_at'])->format('M d, Y')
+                    : 'N/A';
+            @endphp
+            
+            <div class="col-lg-4">
                 <div class="vs-blog blog-single">
-                    <div class="row align-items-center">
-                        <div class="col-lg-5">
-                            <div class="blog-img">
-                                <a href="{{ route('blog-details', $blog['slug']) }}">
-                                    <img src="{{ env('BACKRND_URL') }}/uploads/{{ $blog['image'] }}"
-                                         alt="{{ $blog['title'] }}"
-                                         onerror="this.src='{{ asset('assets/img/blog/blog-s-2-1.png') }}'">
-                                </a>
-                            </div>
+                    <div class="blog-img">
+                        <a href="{{ route('blog-details', $blog['slug']) }}">
+                            <img src="{{ $imageUrl }}" 
+                                 alt="{{ $blog['title'] ?? 'Blog Image' }}"
+                                 onerror="this.src='{{ asset('assets/img/blog/blog-img-1-1.jpg') }}'">
+                        </a>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <a href="{{ route('blogs', ['category' => $categoryIds[0] ?? '']) }}">
+                                <i class="fal fa-tag"></i>
+                                {{ $categoryDisplay }}
+                            </a>
                         </div>
-                        <div class="col-lg-7">
-                            <div class="blog-content">
-                                <div class="blog-meta">
-                                    <a href="#">
-                                        <i class="fal fa-tag"></i>
-                                        {{ !empty($blog['category_ids']) ? 'Category #'.implode(', ', $blog['category_ids']) : 'Fresh Vegetables' }}
-                                    </a>
-                                </div>
-                                <h2 class="blog-title">
-                                    <a href="{{ route('blog-details', $blog['slug']) }}">
-                                        {{ \Str::limit($blog['title'], 50) }}
-                                    </a>
-                                </h2>
-                                <p class="blog-text">
-                                    {{ \Str::limit(strip_tags($blog['description']), 100) }}
-                                </p>
-                                <div class="blog-meta">
-                                    <a href="{{ route('blogs') }}" class="blog-date">
-                                        <i class="fas fa-calendar-alt"></i>
-                                        {{ \Carbon\Carbon::parse($blog['published_at'])->format('M d, Y') }}
-                                    </a>
-                                    <a href="{{ route('blog-details', $blog['slug']) }}" class="blog-date">
-                                        <i class="far fa-user"></i>
-                                        {{ $blog['author'] ?? 'Admin' }}
-                                    </a>
-                                </div>
+                        <h2 class="blog-title">
+                            <a href="{{ route('blog-details', $blog['slug']) }}">
+                                {{ \Str::limit($blog['title'], 50) }}
+                            </a>
+                        </h2>
+                        <div class="blog-inner-author">
+                            <img src="assets/img/blog/blog-auth-1-1.png" alt="blog author">
+                            <div class="text">
+                                by <a href="{{ route('blogs') }}">{{ $blog['author'] ?? 'Admin' }}</a>
+                                <a href="{{ route('blogs') }}" class="blog-date">{{ $publishedDate }}</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            @endforeach
-        </div>
-        <div class="blog-btn">
-            <a href="{{ route('blogs') }}" class="vs-btn">View All News</a>
-        </div>
-        @else
-        <!-- Fallback Static Content -->
-        <div class="row gx-5 vs-carousel" data-slide-show="2" data-lg-slide-show="2" data-md-slide-show="2"
-            data-autoplay="true" data-arrows="true">
-            <div class="col-lg-6">
-                <div class="vs-blog blog-single">
-                    <div class="row align-items-center">
-                        <div class="col-lg-5">
-                            <div class="blog-img">
-                                <a href="blog-details.html"><img src="assets/img/blog/blog-s-2-1.png" alt="Blog Image"></a>
-                            </div>
+            @empty
+                {{-- ✅ Fallback: Static Demo Blogs --}}
+                <div class="col-lg-4">
+                    <div class="vs-blog blog-single">
+                        <div class="blog-img">
+                            <a href="{{ route('blog-details', 'test') }}">
+                                <img src="assets/img/blog/blog-img-1-1.jpg" alt="Blog Image">
+                            </a>
                         </div>
-                        <div class="col-lg-7">
-                            <div class="blog-content">
-                                <div class="blog-meta">
-                                    <a href="#"><i class="fal fa-tag"></i>Fresh Vegetables</a>
-                                </div>
-                                <h2 class="blog-title"><a href="blog-details.html">Harvest London Publishes Its First Annua</a></h2>
-                                <p class="blog-text">Lorem ipsum dolor sit amet, porros lien est, qui dolore ipsu.</p>
-                                <div class="blog-meta">
-                                    <a href="{{ route('blogs') }}" class="blog-date"><i class="fas fa-calendar-alt"></i>Dec 13, 2024</a>
-                                    <a href="{{ route('blogs') }}" class="blog-date"><i class="far fa-comment"></i>24</a>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <a href="#"><i class="fal fa-tag"></i>HEALTH</a>
+                            </div>
+                            <h2 class="blog-title">
+                                <a href="{{ route('blog-details', 'test') }}">Harvest London Publishes Its First Annual Report</a>
+                            </h2>
+                            <div class="blog-inner-author">
+                                <img src="assets/img/blog/blog-auth-1-1.png" alt="blog author">
+                                <div class="text">
+                                    by <a href="{{ route('blogs') }}">Jakki James</a>
+                                    <a href="{{ route('blogs') }}" class="blog-date">Dec 13, 2024</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="col-lg-4">
+                    <div class="vs-blog blog-single">
+                        <div class="blog-img">
+                            <a href="{{ route('blog-details', 'test') }}">
+                                <img src="assets/img/blog/blog-img-1-2.jpg" alt="Blog Image">
+                            </a>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <a href="#"><i class="fal fa-tag"></i>FARMING</a>
+                            </div>
+                            <h2 class="blog-title">
+                                <a href="{{ route('blog-details', 'test') }}">Organic Farming Techniques for Better Yield</a>
+                            </h2>
+                            <div class="blog-inner-author">
+                                <img src="assets/img/blog/blog-auth-1-1.png" alt="blog author">
+                                <div class="text">
+                                    by <a href="{{ route('blogs') }}">Sarah Miller</a>
+                                    <a href="{{ route('blogs') }}" class="blog-date">Jan 05, 2025</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="vs-blog blog-single">
+                        <div class="blog-img">
+                            <a href="{{ route('blog-details', 'test') }}">
+                                <img src="assets/img/blog/blog-img-1-3.jpg" alt="Blog Image">
+                            </a>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <a href="#"><i class="fal fa-tag"></i>AGRICULTURE</a>
+                            </div>
+                            <h2 class="blog-title">
+                                <a href="{{ route('blog-details', 'test') }}">Sustainable Agriculture: The Future of Farming</a>
+                            </h2>
+                            <div class="blog-inner-author">
+                                <img src="assets/img/blog/blog-auth-1-1.png" alt="blog author">
+                                <div class="text">
+                                    by <a href="{{ route('blogs') }}">John Doe</a>
+                                    <a href="{{ route('blogs') }}" class="blog-date">Feb 18, 2025</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforelse
+            
         </div>
+        
         <div class="blog-btn">
             <a href="{{ route('blogs') }}" class="vs-btn">View All News</a>
         </div>
-        @endif
     </div>
 </section>

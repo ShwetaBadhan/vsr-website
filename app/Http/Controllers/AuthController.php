@@ -6,20 +6,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
 use App\Models\User;
-
+use App\Models\OtpVerification;
+use App\Traits\GeneratesOtp;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Password; 
+use Illuminate\Support\Facades\Mail; 
 class AuthController extends Controller
 {
+    use GeneratesOtp;
+
     // ===============================
-    // 🔐 LOGIN METHODS
+    // 🔐 TRADITIONAL LOGIN
     // ===============================
     
     public function showLoginForm()
     {
-        if (auth()->check()) {
-            return redirect()->route('home');
-        }
+        if (auth()->check()) return redirect()->route('home');
+        
+        // Clear OTP session if any
+        session()->forget(['otp_step', 'otp_email', 'otp_type']);
+        
         return view('frontend.pages.auth.login');
     }
 
@@ -35,9 +42,7 @@ class AuthController extends Controller
             'password.min' => 'Password must be at least 6 characters'
         ]);
 
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+        if (Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
             $request->session()->regenerate();
             
             // Restore cart if preserved
@@ -48,35 +53,134 @@ class AuthController extends Controller
                 Session::forget('cart_before_auth');
             }
             
-            // Redirect to intended page or home
-            $redirect = session('url.intended', route('home'));
-            session()->forget('url.intended');
-            
-            return redirect()->intended($redirect)->with('success', 'Welcome back!');
+            return redirect()->intended(route('home'))->with('success', 'Welcome back!');
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.'
-        ])->withInput($request->only('email'));
+        return back()->withErrors(['email' => 'The provided credentials do not match our records.'])
+                    ->withInput($request->only('email'));
     }
 
     // ===============================
-    // 👤 REGISTER METHODS
+    // 🔑 OTP FLOW (Controller-Driven)
+    // ===============================
+
+    /**
+     * Step 1: Request OTP → Store in session → Redirect to verify step
+     */
+public function requestOtp(Request $request)
+{
+    Log::info('=== OTP Request Started ===');
+    
+    $request->validate([
+        'email' => 'required|email',
+        'type' => 'in:login,register,checkout'
+    ]);
+
+    // Delete old OTPs
+    OtpVerification::where('email', $request->email)
+        ->where('type', $request->type ?? 'login')
+        ->whereNull('verified_at')
+        ->delete();
+
+    // Generate OTP
+    $otp = $this->generateOtp();
+    OtpVerification::create([
+        'email' => $request->email,
+        'otp' => $otp,
+        'type' => $request->type ?? 'login',
+        'expires_at' => now()->addMinutes(10)
+    ]);
+
+    // Send email
+    $this->sendOtpEmail($request->email, $otp, $request->type ?? 'login');
+
+    // 🔹 FIX: Query string mein pass karein (session ki jagah)
+    return redirect()
+        ->route('login', [
+            'verify_otp' => 1,
+            'otp_email' => $request->email
+        ])
+        ->with('success', 'OTP sent to ' . $request->email);
+}
+    /**
+     * Step 2: Verify OTP → Login/Register → Redirect
+     */
+    public function verifyOtp(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'otp' => 'required|digits:6',
+    ]);
+
+    $otpRecord = OtpVerification::where('email', $request->email)
+        ->where('otp', $request->otp)
+        ->where('type', $request->type ?? 'login')
+        ->whereNull('verified_at')
+        ->first();
+
+    if (!$otpRecord || $otpRecord->isExpired()) {
+        return back()->with('error', 'Invalid or expired OTP. Please try again.');
+    }
+
+    $otpRecord->markAsVerified();
+
+    // Login
+    $user = User::where('email', $request->email)->first();
+    if (!$user) {
+        return back()->with('error', 'No account found with this email.');
+    }
+
+    Auth::login($user);
+    
+    return redirect()->intended(route('home'))->with('success', 'Logged in successfully!');
+}
+
+    /**
+     * Resend OTP (Same logic as requestOtp)
+     */
+    public function resendOtp(Request $request)
+    {
+        $email = $request->input('email') ?? Session::get('otp_email');
+        $type = $request->input('type') ?? Session::get('otp_type') ?? 'login';
+
+        if (!$email) {
+            return back()->with('error', 'Email not found. Please start over.');
+        }
+
+        // Cooldown: 30 seconds
+        $lastOtp = OtpVerification::where('email', $email)
+            ->where('type', $type)
+            ->latest()
+            ->first();
+            
+        if ($lastOtp && $lastOtp->created_at->addSeconds(30)->isFuture()) {
+            return back()->with('error', 'Please wait 30 seconds before requesting a new OTP.');
+        }
+
+        return $this->requestOtp(new Request([
+            'email' => $email,
+            'type' => $type
+        ]));
+    }
+
+    // ===============================
+    // 👤 REGISTER (With OTP Support)
     // ===============================
     
     public function showRegisterForm()
     {
-        if (auth()->check()) {
-            return redirect()->route('home');
-        }
+        if (auth()->check()) return redirect()->route('home');
         return view('frontend.pages.auth.register');
     }
 
     public function register(Request $request)
     {
+        // Agar OTP se aaya hai toh email session se lo
+        $email = Session::get('otp_verified_email') ?? $request->email;
+        
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
+            'email' => $request->has('otp_verified_email') ? 'nullable' : 'required|email|unique:users,email',
             'phone' => 'nullable|string|max:20',
             'password' => 'required|min:6|confirmed',
             'terms' => 'accepted'
@@ -92,15 +196,16 @@ class AuthController extends Controller
 
         $user = User::create([
             'name' => $request->name,
-            'email' => $request->email,
+            'email' => $email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
             'email_verified_at' => now()
         ]);
 
+        Session::forget('otp_verified_email');
         Auth::login($user);
         
-        // Restore cart if preserved
+        // Restore cart
         if (Session::has('cart_before_auth')) {
             $existing = Session::get('cart', []);
             $preserved = Session::get('cart_before_auth', []);
@@ -116,16 +221,27 @@ class AuthController extends Controller
     // ===============================
     
     public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        
-        return redirect()->route('home')->with('success', 'Logged out successfully.');
-    }
+{
+    // 🔹 Step 1: Cart & Wishlist ko backup karein (before session invalidate)
+    $cartBackup = session('cart', []);
+    $wishlistBackup = session('wishlist', []);
+    
+    // 🔹 Step 2: User ko logout karein + session invalidate karein
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    
+    // 🔹 Step 3: Cart & Wishlist wapas restore karein (new session mein)
+    session([
+        'cart' => $cartBackup,
+        'wishlist' => $wishlistBackup
+    ]);
+    
+    return redirect()->route('home')->with('success', 'Logged out successfully.');
+}
 
     // ===============================
-    // 🔑 PASSWORD RESET (Optional)
+    // 🔑 PASSWORD RESET (Existing)
     // ===============================
     
     public function showForgotForm()
@@ -133,29 +249,56 @@ class AuthController extends Controller
         return view('frontend.pages.auth.forgot-password');
     }
 
-    public function sendResetLink(Request $request)
-    {
-        $request->validate(['email' => 'required|email']);
-        
-        // TODO: Implement actual password reset logic
-        // For now, just show success message
-        return back()->with('status', 'If that email exists in our system, you will receive a reset link.');
+   public function sendResetLink(Request $request)
+{
+    $request->validate(['email' => 'required|email|exists:users,email'], [
+        'email.exists' => 'No account found with this email address.'
+    ]);
+
+    $status = Password::sendResetLink(
+        $request->only('email')
+    );
+
+    if ($status === Password::RESET_LINK_SENT) {
+        return back()->with('status', 'Password reset link sent to your email! Please check inbox/spam.');
     }
 
-    public function showResetForm($token)
-    {
-        return view('frontend.pages.auth.reset-password', ['token' => $token]);
-    }
+    return back()->withErrors(['email' => __($status)]);
+}
+public function showResetForm(Request $request, $token)
+{
+    return view('frontend.pages.auth.reset-password', [
+        'token' => $token,
+        'email' => $request->email
+    ]);
+}
 
     public function resetPassword(Request $request)
-    {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:6|confirmed'
-        ]);
-        
-        // TODO: Implement actual password reset logic
-        return redirect()->route('login')->with('success', 'Password reset successfully. Please login.');
+{
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email|exists:users,email',
+        'password' => 'required|min:6|confirmed',
+    ], [
+        'password.confirmed' => 'Passwords do not match.'
+    ]);
+
+    $status = Password::reset(
+        $request->only('email', 'password', 'password_confirmation', 'token'),
+        function ($user, $password) {
+            $user->forceFill([
+                'password' => Hash::make($password)
+            ])->save();
+            
+            // Optional: Delete old tokens
+            // $user->tokens()->delete();
+        }
+    );
+
+    if ($status === Password::PASSWORD_RESET) {
+        return redirect()->route('login')->with('success', 'Password reset successfully! Please login with new password.');
     }
+
+    return back()->withErrors(['email' => [__($status)]]);
+}
 }

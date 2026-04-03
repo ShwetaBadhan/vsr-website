@@ -7,21 +7,25 @@
                 <div class="container">
                     <div class="row gx-0 align-items-center justify-content-between z-index-common ">
                         <div class="col-lg-6">
-                            <div class="subscribe-inner">
-                                <span class="subscribe-icon"><i class="fab fa-telegram-plane"></i></span>
-                                <div class="subscribe-title">
-                                    <h2 class="sec-title">Newsleteer</h2>
-                                    <p class="sec-subtitle">Enter your email address and get new updates</p>
-                                </div>
-                            </div>
+                          <div class="subscribe-inner">
+    <span class="subscribe-icon"><i class="fab fa-telegram-plane"></i></span>
+    <div class="subscribe-title">
+        <h2 class="sec-title">Newsletter</h2>
+        <p class="sec-subtitle">Enter your email address and get new updates</p>
+    </div>
+</div>
 
-                            <form class="newsletter-form">
-                                <div class="search-btn">
-                                    <input class="form-control" type="email"
-                                        placeholder="Ener your email address....">
-                                    <button type="submit" class="vs-btn">Subscribe</button>
-                                </div>
-                            </form>
+<!-- Add an ID to the form and the feedback message area -->
+<form class="newsletter-form" id="newsletterForm" action="{{ route('subscribe') }}" method="POST">
+    @csrf
+    <div class="search-btn">
+        <input class="form-control" type="email" name="email" id="newsletterEmail"
+            placeholder="Enter your email address...." required>
+        <button type="submit" class="vs-btn" id="subscribeBtn">Subscribe</button>
+    </div>
+    <!-- Hidden feedback message -->
+    <p id="formMessage" class="mt-2 text-white" style="display:none; font-size: 14px;"></p>
+</form>
                         </div>
                         <div class="col-lg-6">
                             <div class="subscribe-img">
@@ -143,8 +147,9 @@
                         <div class="copyright-menu">
                             <ul class="list-unstyled">
                                 <li><a href="#">Sitemap</a></li>
-                                <li><a href="#">Contact</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
+                                
+                                <li><a href="{{ route('privacy-policy') }}">Privacy Policy</a></li>
+                                <li><a href="{{ route('terms-and-conditions') }}">Terms & Conditions</a></li>
                             </ul>
                         </div>
                     </div>
@@ -152,3 +157,51 @@
             </div>
         </div>
     </footer>
+        <!-- Scroll To Top -->
+    <a href="#" class="scrollToTop scroll-btn"><i class="far fa-arrow-up"></i></a>
+<!-- Add this Script -->
+<script>
+    document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Stop page reload
+        
+        const form = this;
+        const btn = document.getElementById('subscribeBtn');
+        const message = document.getElementById('formMessage');
+        const emailInput = document.getElementById('newsletterEmail');
+        
+        // Show loading state
+        btn.textContent = 'Subscribing...';
+        btn.disabled = true;
+        message.style.display = 'none';
+
+        // Send data via AJAX
+        fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest' // Laravel needs this for JSON responses
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                message.style.color = '#00ff00'; // Green
+                message.textContent = data.message;
+                emailInput.value = ''; // Clear input
+            } else {
+                message.style.color = '#ff4d4d'; // Red
+                message.textContent = data.message;
+            }
+            message.style.display = 'block';
+        })
+        .catch(error => {
+            message.style.color = '#ff4d4d';
+            message.textContent = 'Network error. Please try again.';
+            message.style.display = 'block';
+        })
+        .finally(() => {
+            btn.textContent = 'Subscribe';
+            btn.disabled = false;
+        });
+    });
+</script>

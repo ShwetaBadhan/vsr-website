@@ -6,7 +6,8 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
-
+use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\BlogController;
 // ===============================
 // 🏠 PUBLIC ROUTES
 // ===============================
@@ -17,6 +18,11 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/about-us', function () {
     return view('frontend.pages.about-us');
 })->name('about-us');
+
+// Privacy Policy
+Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy'])->name('privacy-policy');
+// T&C
+Route::get('/terms-and-conditions', [HomeController::class, 'termsConditions'])->name('terms-and-conditions');
 
 // Services
 Route::get('/services', function () {
@@ -31,15 +37,9 @@ Route::get('/service-details', function () {
 Route::get('/products', [HomeController::class, 'products'])->name('products');
 Route::get('/product/{slug}', [HomeController::class, 'productDetails'])->name('product-details');
 
-// Blogs
-Route::get('/blogs', function () {
-    return view('frontend.pages.blogs');
-})->name('blogs');
 
-Route::get('/blog-details', function () {
-    return view('frontend.pages.blog-details');
-})->name('blog-details');
-
+Route::get('/blogs', [BlogController::class, 'index'])->name('blogs');
+Route::get('/blog-details/{slug}', [BlogController::class, 'show'])->name('blog-details');
 // Contact
 Route::get('/contact-us', function () {
     return view('frontend.pages.contact-us');
@@ -72,7 +72,9 @@ Route::post('/wishlist/toggle', [WishlistController::class, 'toggle'])->name('wi
 // 🔐 AUTHENTICATION ROUTES (OTP + Traditional)
 // ===============================
 
-// Traditional Auth (your existing)
+// ===============================
+// 🔐 TRADITIONAL AUTH (Existing)
+// ===============================
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -86,6 +88,28 @@ Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])->name(
 Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 
+
+// ===============================
+// 🔑 OTP SYSTEM ROUTES (New)
+// ===============================
+
+// Request OTP (Login/Register/Checkout ke liye)
+Route::post('/request-otp', [AuthController::class, 'requestOtp'])->name('request-otp');
+
+// Verify OTP
+Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-otp');
+
+// Resend OTP
+Route::post('/resend-otp', [AuthController::class, 'resendOtp'])->name('resend-otp');
+
+// Complete Registration (OTP verify hone ke baad)
+Route::post('/complete-registration', [AuthController::class, 'completeRegistration'])->name('complete-registration');
+
+// Checkout OTP Required Page
+Route::get('/checkout/verify', [AuthController::class, 'showCheckoutOtp'])->name('checkout-required');
+
+// OTP Login (Direct OTP se login karne ke liye)
+Route::post('/otp-login', [AuthController::class, 'otpLogin'])->name('otp-login');
 // ✅ NEW: OTP Routes for Checkout Auth
 Route::prefix('auth')->name('auth.')->group(function () {
     // Show auth page when checkout requires login
@@ -100,7 +124,11 @@ Route::prefix('auth')->name('auth.')->group(function () {
         ->name('verify-otp')
         ->middleware('throttle:10,1'); // Max 10 attempts per minute
 });
-
+// routes/web.php
+Route::get('/forgot-password', [AuthController::class, 'showForgotForm'])->name('password.request');
+Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])->name('password.email');
+Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 // ✅ Social Auth (your existing)
 Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
@@ -122,9 +150,6 @@ Route::middleware(['auth'])->group(function () {
 // ✅ Cancel route can stay public (user can abandon anytime)
 Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
 
-// ===============================
-// 🎯 MIDDLEWARE: Redirect Unauthenticated Users from Checkout
-// ===============================
 
-// Add this AFTER all routes, or create a dedicated middleware
-// See: app/Http/Middleware/RedirectIfNotAuthenticatedForCheckout.php
+// Newsletter Subscription Route
+Route::post('/subscribe', [NewsletterController::class, 'subscribe'])->name('subscribe');

@@ -312,23 +312,8 @@
                     <div class="mt-lg-3">
                         <div class="woocommerce-checkout-payment">
                             <ul class="wc_payment_methods payment_methods methods">
-                                <li class="wc_payment_method payment_method_bacs">
-                                    <input id="payment_method_bacs" type="radio" class="input-radio"
-                                        name="payment_method" value="bacs" checked>
-                                    <label for="payment_method_bacs">Direct Bank Transfer</label>
-                                    <div class="payment_box payment_method_bacs">
-                                        <p>Make your payment directly into our bank account.
-                                            Your order will be processed once payment is confirmed.</p>
-                                    </div>
-                                </li>
-                                <li class="wc_payment_method payment_method_cheque">
-                                    <input id="payment_method_cheque" type="radio" class="input-radio"
-                                        name="payment_method" value="cheque">
-                                    <label for="payment_method_cheque">Cheque Payment</label>
-                                    <div class="payment_box payment_method_cheque">
-                                        <p>Please send a cheque to our registered office address.</p>
-                                    </div>
-                                </li>
+                               
+                               
                                 <li class="wc_payment_method payment_method_cod">
                                     <input id="payment_method_cod" type="radio" class="input-radio"
                                         name="payment_method" value="cod">

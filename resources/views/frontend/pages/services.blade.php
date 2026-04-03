@@ -41,13 +41,13 @@
                         </div>
                         <div class="row g-3 vs-carousel" data-arrows="false" data-dots="true" data-autoplay="true" data-slide-show="2">
                             <div class="col-auto">
-                                <a href="blog-details.html"><img src="assets/img/blog/blog-s-1-1.png" alt="Blog Image"></a>
+                                <a href="{{ route ('blog-details') }}"><img src="assets/img/blog/blog-s-1-1.png" alt="Blog Image"></a>
                             </div>
                             <div class="col-auto">
-                                <a href="blog-details.html"><img src="assets/img/blog/blog-s-1-2.png" alt="Blog Image"></a>
+                                <a href="{{ route ('blog-details') }}"><img src="assets/img/blog/blog-s-1-2.png" alt="Blog Image"></a>
                             </div>
                             <div class="col-auto">
-                                <a href="blog-details.html"><img src="assets/img/blog/blog-s-1-3.png" alt="Blog Image"></a>
+                                <a href="{{ route ('blog-details') }}"><img src="assets/img/blog/blog-s-1-3.png" alt="Blog Image"></a>
                             </div>
                         </div>
                     </div>

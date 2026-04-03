@@ -1048,7 +1048,7 @@ textarea.is-invalid {
   background-color: transparent;
   color: var(--title-color);
   line-height: 1;
-  padding: 18px 30px;
+  padding: 15px 30px;
   border-radius: 9999px;
   transition: all 0.5s ease;
 }
