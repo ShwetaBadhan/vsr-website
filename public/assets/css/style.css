@@ -66,8 +66,8 @@ Version: 1.0.0
 /*------------------- 1.3. Variable-------------------*/
 :root {
   --body-bg: #ffffff;
-  --theme-color: #ffd800;
-  --secondary-color: #0c7735;
+  --theme-color: #aece5b;
+  --secondary-color: #284a8a;
   --body-color: #555555;
   --title-color: #000000;
   --smoke-color: #f1f5f4;
@@ -2860,7 +2860,7 @@ a.text-theme:hover,
 .copyright-text a {
   font-weight: 700;
   color: inherit;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 .copyright-text a:hover {
   color: var(--theme-color);

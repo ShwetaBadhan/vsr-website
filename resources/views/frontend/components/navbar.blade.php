@@ -47,26 +47,26 @@
                                </div>
                            </div>
                            <div class="col text-center">
-                               <div class="header-logo">
-                                   @php
-                                       $settings = $settings ?? null;
-                                       $whiteLogo = $settings?->white_logo ?? ($settings['white_logo'] ?? null);
-                                       $blackLogo = $settings?->black_logo ?? ($settings['black_logo'] ?? null);
-                                       $fallback = asset('assets/img/logo-2.png');
-                                   @endphp
+@php
+    $settings = $settings ?? null;
+    $whiteLogo = $settings?->white_logo ?? $settings['white_logo'] ?? null;
+    $blackLogo = $settings?->black_logo ?? $settings['black_logo'] ?? null;
+    $fallback = asset('assets/img/logo-2.png');
+@endphp
 
-                                   <a class="logo1" href="{{ route('home') }}">
-                                       <img src="{{ $whiteLogo ?? $fallback }}"
-                                           alt="{{ $settings?->company_name ?? 'Logo' }}"
-                                           style="max-height: 50px; width: auto;">
-                                   </a>
+<div class="header-logo">
+    <a class="logo1" href="{{ route('home') }}">
+        <img src="{{ $whiteLogo ? rtrim(env('BACKEND_URL'), '/') . '/storage/' . ltrim(parse_url($whiteLogo, PHP_URL_PATH) ?? $whiteLogo, '/') : $fallback }}"
+             alt="{{ $settings?->company_name ?? 'Logo' }}"
+             style="max-height: 50px; width: auto;">
+    </a>
 
-                                   <a class="logo2" href="{{ route('home') }}">
-                                       <img src="{{ $blackLogo ?? $fallback }}"
-                                           alt="{{ $settings?->company_name ?? 'Logo' }}"
-                                           style="max-height: 50px; width: auto;">
-                                   </a>
-                               </div>
+    <a class="logo2" href="{{ route('home') }}">
+        <img src="{{ $blackLogo ? rtrim(env('BACKEND_URL'), '/') . '/storage/' . ltrim(parse_url($blackLogo, PHP_URL_PATH) ?? $blackLogo, '/') : $fallback }}"
+             alt="{{ $settings?->company_name ?? 'Logo' }}"
+             style="max-height: 50px; width: auto;">
+    </a>
+</div>
                            </div>
                            <div class="col-auto d-lg-none">
                                <button class="vs-menu-toggle d-inline-block">

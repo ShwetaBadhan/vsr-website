@@ -73,29 +73,17 @@
                     </div>
                     <div class="col-xl-2 col-md-3">
                         <div class="widget widget_categories  footer-widget">
-                            <h3 class="widget_title">Company</h3>
+                            <h3 class="widget_title">Quick Links</h3>
                             <ul>
-                                <li><a href="{{ route('about-us') }}">About</a></li>
-                                <li><a href="#">Our products</a></li>
-                                <li><a href="{{ route('services') }}">Our cases</a></li>
-                                <li><a href="{{ route('blogs') }}">News & events</a></li>
-                                <li><a href="{{ route('blogs') }}">Organic Product</a></li>
+                                <li><a href="{{ route('about-us') }}">About Us</a></li>
+                                <li><a href="{{ route('products') }}">Our products</a></li>
+                                <li><a href="{{ route('contact-us') }}">Contact Us</a></li>
+                                <li><a href="{{ route('blogs') }}">News & Blogs</a></li>
+                             
                             </ul>
                         </div>
                     </div>
-                    <div class="col-xl-2 col-md-3">
-                        <div class="widget widget_categories  footer-widget">
-                            <h3 class="widget_title">Categories</h3>
-                            <ul>
-                                <li><a href="{{ route('about-us') }}">Microgreen</a></li>
-                                <li><a href="{{ route('services') }}">Agricultural products</a></li>
-                                <li><a href="{{ route('blogs') }}">Crops farming</a></li>
-                                <li><a href="{{ route('blogs') }}">Uncategorized</a></li>
-                                <li><a href="{{ route('blogs') }}">Agriculture Staff</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xl-4">
+                       <div class="col-xl-3">
                         <div class="widget widget_newsletter footer-widget">
                             <h4 class="widget_title">Contact</h4>
                             <div class="footer-media">
@@ -126,6 +114,23 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-xl-3 col-md-3">
+                        <div class="widget widget_categories  footer-widget">
+                            <h3 class="widget_title">Legal</h3>
+                            <ul>
+                                  <li><a href="{{ route('terms-and-conditions') }}">Terms & Conditions</a></li>
+                                <li><a href="{{ route('privacy-policy') }}">Privacy Policy</a></li>
+                                <li><a href="{{ route('accessibility') }}">Accessibility</a></li>
+                                <li><a href="{{ route('shipping-policy') }}">Consent Preferences</a></li>
+                                <li><a href="{{ route('cancel-refund-policy') }}">Cancellation & Refund Process</a></li>
+                                <li><a href="{{ route('disclaimer') }}">Disclaimer</a></li>
+                                <li><a href="{{ route('shipping-policy') }}">Shipping Policy</a></li>
+                                <li><a href="{{ route('grievance-redressal') }}">Grievance Redressal</a></li>
+                             
+                            </ul>
+                        </div>
+                    </div>
+                 
                 </div>
             </div>
         </div>
@@ -146,10 +151,10 @@
                     <div class="col-auto">
                         <div class="copyright-menu">
                             <ul class="list-unstyled">
-                                <li><a href="#">Sitemap</a></li>
+                                {{-- <li><a href="#">Sitemap</a></li> --}}
                                 
-                                <li><a href="{{ route('privacy-policy') }}">Privacy Policy</a></li>
-                                <li><a href="{{ route('terms-and-conditions') }}">Terms & Conditions</a></li>
+                                {{-- <li><a href="{{ route('privacy-policy') }}">Privacy Policy</a></li>
+                                <li><a href="{{ route('terms-and-conditions') }}">Terms & Conditions</a></li> --}}
                             </ul>
                         </div>
                     </div>

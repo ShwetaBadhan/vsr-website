@@ -6,15 +6,17 @@
         <div class="vs-menu-area text-center">
             <button class="vs-menu-toggle"><i class="fal fa-times"></i></button>
     <div class="mobile-logo">
-    @php
-        $image = is_object($settings) 
-            ? ($settings->white_logo ?? $settings['black_logo'] ?? null)
-            : ($settings['black_logo'] ?? null);
-    @endphp
+   @php
+    $settings = $settings ?? null;
+    $whiteLogo = $settings?->white_logo ?? $settings['white_logo'] ?? null;
+    $blackLogo = $settings?->black_logo ?? $settings['black_logo'] ?? null;
+    $fallback = asset('assets/img/logo-2.png');
+@endphp
 
-    <img src="{{ $image ?   $image : asset('assets/img/product/product-1-1.png') }}"
-         alt="product"
-         style="max-height: 50px; width: auto;">
+
+     <img src="{{ $blackLogo ? rtrim(env('BACKEND_URL'), '/') . '/storage/' . ltrim(parse_url($blackLogo, PHP_URL_PATH) ?? $blackLogo, '/') : $fallback }}"
+             alt="{{ $settings?->company_name ?? 'Logo' }}"
+             style="max-height: 50px; width: auto;">
 </div>
             <div class="vs-mobile-menu">
                 <ul>

@@ -24,6 +24,18 @@ Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy'])->name('p
 // T&C
 Route::get('/terms-and-conditions', [HomeController::class, 'termsConditions'])->name('terms-and-conditions');
 
+// Accessibilty
+Route::get('/accessibility', [HomeController::class, 'Accessibility'])->name('accessibility');
+
+// shipping-policy
+Route::get('/shipping-policy', [HomeController::class, 'shippingPolicy'])->name('shipping-policy');
+// cancel-policy
+Route::get('/cancel-policy', [HomeController::class, 'cancelPolicy'])->name('cancel-refund-policy');
+// cancel-policy
+Route::get('/disclaimer', [HomeController::class, 'disclaimer'])->name('disclaimer');
+// cancel-policy
+Route::get('/grievance-redressal', [HomeController::class, 'grievanceRedressal'])->name('grievance-redressal');
+
 // Services
 Route::get('/services', function () {
     return view('frontend.pages.services');
