@@ -19,6 +19,11 @@ Route::get('/about-us', function () {
     return view('frontend.pages.about-us');
 })->name('about-us');
 
+// About Us
+Route::get('/consultation', function () {
+    return view('frontend.pages.consultation');
+})->name('consult-now');
+
 // Privacy Policy
 Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy'])->name('privacy-policy');
 // T&C
