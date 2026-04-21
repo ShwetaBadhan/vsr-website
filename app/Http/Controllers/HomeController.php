@@ -14,7 +14,7 @@ class HomeController extends Controller
      * Fetch system settings from API with caching
      * Returns array or null if API fails
      */
-    protected function getSystemSettings()
+    public  function getSystemSettings()
 {
     try {
         return Cache::remember('frontend_system_settings', 3600, function () {
@@ -26,12 +26,13 @@ class HomeController extends Controller
                 
                 if ($settings) {
                     // Normalize logo paths to include /storage/ prefix
-                    if (!empty($settings['white_logo']) && !str_starts_with($settings['white_logo'], '/storage/')) {
-                        $settings['white_logo'] = '/storage/' . ltrim($settings['white_logo'], '/');
-                    }
-                    if (!empty($settings['black_logo']) && !str_starts_with($settings['black_logo'], '/storage/')) {
-                        $settings['black_logo'] = '/storage/' . ltrim($settings['black_logo'], '/');
-                    }
+                    if (!empty($settings['white_logo']) && !str_contains($settings['white_logo'], '/storage/')) {
+    $settings['white_logo'] = str_replace('/logos/', '/storage/logos/', $settings['white_logo']);
+}
+
+if (!empty($settings['black_logo']) && !str_contains($settings['black_logo'], '/storage/')) {
+    $settings['black_logo'] = str_replace('/logos/', '/storage/logos/', $settings['black_logo']);
+}
                 }
                 
                 return $settings;

@@ -14,7 +14,7 @@
 @endphp
 
 
-     <img src="{{ $blackLogo ? rtrim(env('BACKEND_URL'), '/') . '/storage/' . ltrim(parse_url($blackLogo, PHP_URL_PATH) ?? $blackLogo, '/') : $fallback }}"
+     <img src="{{ $blackLogo ?: $fallback }}"
              alt="{{ $settings?->company_name ?? 'Logo' }}"
              style="max-height: 50px; width: auto;">
 </div>

@@ -61,8 +61,7 @@
                                         style="max-height: 50px; width: auto;">
                                          </a>
                                 </div>
-                                <p class="footer-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor in cididunt ut labore et dolo aliqua.</p>
+                                <p class="footer-text">{{ $settings['about'] }}</p>
                                 <div class="footer-social">
                                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                                     <a href="#"><i class="fab fa-twitter"></i></a>
@@ -91,15 +90,14 @@
                                     <div class="media-icon"><img src="{{ url('assets/img/icon/icon-1-1.png') }}"
                                             alt="icon"></div>
                                     <div class="media-body">
-                                        <p class="media-info"><a href="tel:+88013004451">+88 013 00 44 51</a> <br> Mon -
-                                            Sat: 09.00 to 06.00</p>
+                                        <p class="media-info"><a href="tel:{{ $settings['phone1'] }}">{{ $settings['phone1'] ?? '9999999999' }}</a> </p>
                                     </div>
                                 </div>
                                 <div class="media-style1">
                                     <div class="media-icon"><img src="{{ url('assets/img/icon/icon-1-3.png') }}"
                                             alt="icon"></div>
                                     <div class="media-body">
-                                        <p class="media-info">5919 Trussville Crossings Pkwy, Birmingham, United Kingdom
+                                        <p class="media-info">{{ $settings['location'] ?? 'Default Location' }}
                                         </p>
                                     </div>
                                 </div>
@@ -107,8 +105,12 @@
                                     <div class="media-icon"><img src="{{ url('assets/img/icon/icon-1-2.png') }}"
                                             alt="icon"></div>
                                     <div class="media-body">
-                                        <p class="media-info"><a href="mailto:example@domain.com">example@domain.com</a>
-                                            <br> <a href="mailto:officename@example.com">officename@example.com</a></p>
+                                        <p class="media-info">
+    <a href="mailto:{{ $settings['email'] ?? '' }}" 
+       style="word-break: break-all;">
+        {{ $settings['email'] ?? 'example@domain.com' }}
+    </a>
+</p>
                                     </div>
                                 </div>
                             </div>

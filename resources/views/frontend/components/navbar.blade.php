@@ -8,11 +8,11 @@
                    <div class="col-auto">
                        <div class="header-links">
                            <ul>
-                               <li><i class="far fa-map-marker-alt"></i>California, TX 70240</li>
-                               <li><i class="far fa-envelope"></i><a href="mailto:info@example.com">info@example.com</a>
+                               <li><i class="far fa-map-marker-alt"></i>{{ $settings['location'] ?? 'Fazilka' }}</li>
+                               <li><i class="far fa-envelope"></i><a href="mailto:{{ $settings['email'] ?? 'info@gmail.com' }}">{{ $settings['email'] }}</a>
                                </li>
-                               <li><i class="far fa-phone-alt"></i><a href="tel:+4733378901">+473 3378 901</a></li>
-                               <li><i class="far fa-clock"></i>Mon - Sat: 09.00 to 06.00</li>
+                               <li><i class="far fa-phone-alt"></i><a href="tel:{{ $settings['phone1'] ?? '9999999999' }}">{{ $settings['phone1'] }}</a></li>
+                               {{-- <li><i class="far fa-clock"></i>Mon - Sat: 09.00 to 06.00</li> --}}
                            </ul>
                        </div>
                    </div>
@@ -53,16 +53,18 @@
     $blackLogo = $settings?->black_logo ?? $settings['black_logo'] ?? null;
     $fallback = asset('assets/img/logo-2.png');
 @endphp
-
+{{-- <pre>
+{{ print_r($settings) }}
+</pre> --}}
 <div class="header-logo">
     <a class="logo1" href="{{ route('home') }}">
-        <img src="{{ $whiteLogo ? rtrim(env('BACKEND_URL'), '/') . '/storage/' . ltrim(parse_url($whiteLogo, PHP_URL_PATH) ?? $whiteLogo, '/') : $fallback }}"
+        <img src="{{ $whiteLogo ?: $fallback }}"
              alt="{{ $settings?->company_name ?? 'Logo' }}"
              style="max-height: 50px; width: auto;">
     </a>
 
     <a class="logo2" href="{{ route('home') }}">
-        <img src="{{ $blackLogo ? rtrim(env('BACKEND_URL'), '/') . '/storage/' . ltrim(parse_url($blackLogo, PHP_URL_PATH) ?? $blackLogo, '/') : $fallback }}"
+        <img src="{{ $blackLogo ?: $fallback }}"
              alt="{{ $settings?->company_name ?? 'Logo' }}"
              style="max-height: 50px; width: auto;">
     </a>
