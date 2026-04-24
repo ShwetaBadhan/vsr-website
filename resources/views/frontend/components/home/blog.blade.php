@@ -7,8 +7,8 @@
             <div class="title-img">
                 <img src="assets/img/icon/title-logo.png" alt="title logo">
             </div>
-            <span class="sec-subtitle">Blog & News</span>
-            <h2 class="sec-title">Recent Articles</h2>
+            <span class="sec-subtitle">Recent Blogs </span>
+            <h2 class="sec-title">Explore Ideas That Inspire Healthy Living</h2>
         </div>
         
         <div class="row vs-carousel" data-slide-show="3" data-lg-slide-show="3" data-md-slide-show="2" data-autoplay="true" data-arrows="true">

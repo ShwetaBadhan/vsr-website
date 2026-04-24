@@ -10,8 +10,8 @@
                           <div class="subscribe-inner">
     <span class="subscribe-icon"><i class="fab fa-telegram-plane"></i></span>
     <div class="subscribe-title">
-        <h2 class="sec-title">Newsletter</h2>
-        <p class="sec-subtitle">Enter your email address and get new updates</p>
+        <h2 class="sec-title">NEWSLETTER </h2>
+        <p class="sec-subtitle">Wellness updates & exclusive deals—straight to your inbox.</p>
     </div>
 </div>
 
@@ -61,7 +61,7 @@
                                         style="max-height: 50px; width: auto;">
                                          </a>
                                 </div>
-                                <p class="footer-text">{{ $settings['about'] }}</p>
+                               <p class="footer-text">{{ strip_tags($settings['about']) }}</p>
                                 <div class="footer-social">
                                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                                     <a href="#"><i class="fab fa-twitter"></i></a>

@@ -26,9 +26,9 @@
                     <span class="sec-subtitle">
                         {{ $disclaimer['sub_title'] ?? 'Welcome to Farmix' }}
                     </span>
-                    <h2 class="sec-title">
+                    {{-- <h2 class="sec-title">
                         {{ $disclaimer['main_title'] ?? 'Terms & Conditions' }}
-                    </h2>
+                    </h2> --}}
                 </div>
                 
                 <div class="about-text">

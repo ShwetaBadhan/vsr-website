@@ -7,7 +7,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="title-left">
                         <span class="sec-subtitle">Our WOrking PROJECT</span>
-                        <h2 class="sec-title">Latest From Our Work</h2>
+                        <h2 class="sec-title">Advancing Natural Wellness for a Healthier Tomorrow</h2>
                     </div>
                     <div class="title-arraw">
                         <button class="icon-btn slick-prev" data-slick-prev=".project-slider"><i class="fas fa-angle-double-left"></i></button>
@@ -18,44 +18,43 @@
             <div class="row vs-carousel project-slider" data-slide-show="3" data-lg-slide-show="3" data-md-slide-show="2" data-autoplay="true" data-arrows="false" data-center-mode="true">
                 <div class="col-lg-4">
                     <div class="history-style1">
-                        <h2 class="history-title">Farm Remodelacion</h2>
+                        <h2 class="history-title">Product Enhancements
+</h2>
                         <p class="history-text">
-                            Veritatis eligendi, dignissimo ferm
-                            entum mus aute pulvinar platea a
-                            massa rutrum.
+                            Improved formulations for better results with better use of natural ingredients.
+
                         </p>
                         <span class="year">1990</span>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="history-style1">
-                        <h2 class="history-title">Earthy & Delights</h2>
+                        <h2 class="history-title">New Developments
+</h2>
                         <p class="history-text">
-                            Veritatis eligendi, dignissimo ferm
-                            entum mus aute pulvinar platea a
-                            massa rutrum.
+                            Focused on energy, immunity, and overall wellness support.
+
                         </p>
                         <span class="year">1989</span>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="history-style1">
-                        <h2 class="history-title">Techniques, & Harvest</h2>
+                        <h2 class="history-title">Innovation Approach</h2>
                         <p class="history-text">
-                            Veritatis eligendi, dignissimo ferm
-                            entum mus aute pulvinar platea a
-                            massa rutrum.
+                            Blending natural wellness with modern, easy-to-use solutions.
+
                         </p>
                         <span class="year">1980</span>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="history-style1">
-                        <h2 class="history-title">Farm Remodelacion</h2>
+                        <h2 class="history-title">Ongoing Commitment
+</h2>
                         <p class="history-text">
-                            Veritatis eligendi, dignissimo ferm
-                            entum mus aute pulvinar platea a
-                            massa rutrum.
+                            Continuously improving quality to make wellness simple and effective.
+
                         </p>
                         <span class="year">1990</span>
                     </div>

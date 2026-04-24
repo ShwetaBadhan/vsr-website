@@ -26,9 +26,9 @@
                     <span class="sec-subtitle">
                         {{ $privacyPolicy['sub_title'] ?? 'Welcome to Farmix' }}
                     </span>
-                    <h2 class="sec-title">
+                    {{-- <h2 class="sec-title">
                         {{ $privacyPolicy['main_title'] ?? 'Privacy Policy' }}
-                    </h2>
+                    </h2> --}}
                 </div>
                 
                 <div class="about-text">

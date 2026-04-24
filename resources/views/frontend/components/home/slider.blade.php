@@ -15,16 +15,21 @@ Hero Area
                         @forelse($sliders as $slider)
                         <div class="hero-content">
                             {{-- Use default text since API only sends image --}}
-                            <h1 class="hero-title">Welcome to VSR</h1>
-                            <p class="hero-text">Providing dedicated disability and aged care services.</p>
+                            <h1 class="hero-title">Wellness That Works for You</h1>
+                            <p class="hero-text">Simple. Natural. Effective.</p>
+                            <p class="hero-text">Discover a smarter way to care for your health with VSR Wellness.</p>
                             <div class="hero-bottom">
                                 <a href="{{ route('products') ?? '#' }}" class="vs-btn">Discover Services</a>
                             </div>
                         </div>
                         @empty
                         <div class="hero-content">
-                            <h1 class="hero-title">Welcome to Our Site</h1>
-                            <p class="hero-text">Loading content...</p>
+                             <h2 class="text-white">Wellness That Works for You</h2>
+                            <h4 class="text-white">Simple. Natural. Effective.</h4>
+                            <p class="hero-text">Discover a smarter way to care for your health with VSR Wellness.</p>
+                            <div class="hero-bottom">
+                                <a href="{{ route('products') ?? '#' }}" class="vs-btn">Discover Services</a>
+                            </div>
                         </div>
                         @endforelse
 

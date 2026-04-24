@@ -9,9 +9,11 @@
                         <div class="title-img">
                             <img src="assets/img/icon/title-logo.png" alt="title logo">
                         </div>
-                        <h2 class="sec-title">Your Start into the Future of Farming</h2>
-                        <span class="sec-subtitle">placing pressure on agriculture to meeting the demands of the future</span>
-                        <a href="#" class="vs-btn">Start Discussion!</a>
+                        <h2 class="sec-title">Our Growth, Your Trust
+</h2>
+                        <span class="sec-subtitle">Our progress reflects the trust of our customers. As we grow, we continue to deliver better quality, stronger results, and reliable wellness solutions you can trust.
+</span>
+                        {{-- <a href="#" class="vs-btn">Start Discussion!</a> --}}
                     </div>
                 </div>
             </div>
@@ -26,10 +28,11 @@
                             </div>
                             <div class="media-counter">
                                 <div class="media-count">
-                                    <h2 class="media-title counter-number" data-count="3145">00</h2>
+                                    <h2 class="media-title counter-number" data-count="10K">00</h2>
                                     <span class="media-count_icon"><i class="far fa-plus"></i></span>
                                 </div>
-                                <p class="media-text">Organic Products</p>
+                                <p class="media-text">Happy Customers
+</p>
                             </div>
                         </div>
                     </div>
@@ -44,10 +47,10 @@
                             </div>
                             <div class="media-counter">
                                 <div class="media-count">
-                                    <h2 class="media-title counter-number" data-count="100">00</h2>
-                                    <span class="media-count_icon"><i class="far fa-percent"></i></span>
+                                    <h2 class="media-title counter-number" data-count="25">00</h2>
+                                    <span class="media-count_icon"><i class="far fa-plus"></i></span>
                                 </div>
-                                <p class="media-text">Organic Guaranteed</p>
+                                <p class="media-text">Wellness Solutions</p>
                             </div>
                         </div>
                         
@@ -63,10 +66,10 @@
                             </div>
                             <div class="media-counter">
                                 <div class="media-count">
-                                    <h2 class="media-title counter-number" data-count="160">00</h2>
+                                    <h2 class="media-title counter-number" data-count="50">00</h2>
                                     <span class="media-count_icon"><i class="far fa-plus"></i></span>
                                 </div>
-                                <p class="media-text">Qualified Formers</p>
+                                <p class="media-text">Dedicated Professionals</p>
                             </div>
                         </div>
                     </div>
@@ -81,10 +84,11 @@
                             </div>
                             <div class="media-counter">
                                 <div class="media-count">
-                                    <h2 class="media-title counter-number" data-count="310">00</h2>
+                                    <h2 class="media-title counter-number" data-count="15K">00</h2>
                                     <span class="media-count_icon"><i class="far fa-plus"></i></span>
                                 </div>
-                                <p class="media-text">Agreculture Firm</p>
+                                <p class="media-text">Health Journeys Supported
+</p>
                             </div>
                         </div>
                         

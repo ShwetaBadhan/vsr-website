@@ -6,9 +6,9 @@
         <div class="row justify-content-between">
             <div class="col-lg-7">
                 <div class="title-area text-left wow fadeInUp wow-animated" data-wow-delay="0.3s">
-                    <span class="sec-subtitle mb-0 text-theme">OUR BEST SERVICES</span>
-                    <h2 class="sec-title">We're popular leader in agriculture market globally</h2>
-                    <p class="title-text">Organic address a range of simply application and infrastructure this of passages of available</p>
+                    <span class="sec-subtitle mb-0 text-theme">Why Choose VSR Wellness</span>
+                    <h2 class="sec-title">Wellness You Can Trust, Results You Can Feel</h2>
+                    <p class="title-text">With a strong focus on quality, carefully selected ingredients, and a customer-first approach, our goal is to make healthy living easy, accessible, and truly impactful.</p>
                 </div>
             </div>
             <div class="col-lg-5">

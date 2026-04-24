@@ -8,7 +8,9 @@
                 <img src="assets/img/icon/title-logo.png" alt="title logo">
             </div>
             <span class="sec-subtitle">Meet Our Experts</span>
-            <h2 class="sec-title">Qualified Formers</h2>
+            {{-- <h2 class="sec-title">Qualified Formers</h2> --}}
+            <p>A dedicated team of professionals passionate about wellness, working together to create safe, effective, and reliable solutions you can trust.
+</p>
         </div>
         
         @if(isset($team) && count($team) > 0)
