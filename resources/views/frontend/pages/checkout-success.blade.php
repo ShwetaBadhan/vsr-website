@@ -1,7 +1,7 @@
 @extends('frontend.layout.master')
 
 @section('content')
-<div class="breadcumb-wrapper" data-bg-src="{{ url('assets/img/breadcrumb/breadcumb-bg.png') }}">
+<div class="breadcumb-wrapper" data-bg-src="{{ url('assets/img/breadcrumb/breadcrumb.png') }}">
     <div class="container z-index-common">
         <h1 class="breadcumb-title">Order Received</h1>
     </div>

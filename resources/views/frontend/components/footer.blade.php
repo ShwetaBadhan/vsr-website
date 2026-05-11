@@ -2,7 +2,7 @@
     <!--==============================
 			Footer Area
 	==============================-->
-    <footer class="footer-wrapper  footer-layout1" data-bg-src="{{ url ('assets/img/bg/footer-bg-1-1.jpg')}}">
+    <footer class="footer-wrapper  footer-layout1" data-bg-src="{{ url ('assets/img/bg/footer.png')}}">
         <div class="footer-top">
             <div class="container">
                 <div class="row g-5">

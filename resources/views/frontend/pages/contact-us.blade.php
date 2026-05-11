@@ -3,7 +3,7 @@
 <!--==============================
     Breadcumb
     ============================== -->
-    <div class="breadcumb-wrapper" data-bg-src="{{url ('assets/img/breadcrumb/breadcumb-bg.png')}}">
+    <div class="breadcumb-wrapper" data-bg-src="{{url ('assets/img/breadcrumb/breadcrumb.png')}}">
         <div class="container z-index-common">
             <div class="breadcumb-content">
                 <h1 class="breadcumb-title">Contact</h1>

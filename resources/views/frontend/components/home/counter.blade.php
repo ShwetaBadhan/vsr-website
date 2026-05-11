@@ -1,7 +1,7 @@
 <!--==============================
     Counter Area
     ============================== -->
-<section class="counter-layout2 space" data-bg-src="assets/img/bg/counter-bg2.jpg">
+<section class="counter-layout2 space" data-bg-src="assets/img/bg/counter.png">
     <div class="container">
         <div class="row justify-content-between">
             <div class="col-lg-7">
@@ -11,11 +11,11 @@
                     <p class="title-text">With a strong focus on quality, carefully selected ingredients, and a customer-first approach, our goal is to make healthy living easy, accessible, and truly impactful.</p>
                 </div>
             </div>
-            <div class="col-lg-5">
+            {{-- <div class="col-lg-5">
                 <div class="counter-img">
                     <img src="assets/img/bg/counter-bg2.png" alt="">
                 </div>
-            </div>
+            </div> --}}
         </div>
         
         <div class="counter-style2">
