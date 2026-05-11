@@ -2,8 +2,8 @@
 @section('content')
 
     <!--==============================
-                Breadcumb
-                ============================== -->
+                    Breadcumb
+                    ============================== -->
     <div class="breadcumb-wrapper" data-bg-src="{{ url('assets/img/breadcrumb/breadcumb-bg.png') }}">
         <div class="container z-index-common">
             <div class="breadcumb-content">
@@ -18,8 +18,8 @@
         </div>
     </div>
     <!--==============================
-                Products-details area
-                ============================== -->
+                    Products-details area
+                    ============================== -->
     <div class="vs-product-wrapper product-details space-top space-extra-bottom">
         <div class="container">
             @if ($product)
@@ -242,234 +242,221 @@
                             <div class="product-information">
                                 <div class="description">
                                     <h3 class="description-title h5">Cautions</h3>
-                                    @if (!empty($product['cautions']))
-                                        <ul class="list-unstyled mb-0 mt-3">
-                                            @foreach (preg_split('/[\n,]+/', trim($product['cautions'] ?? ''), -1, PREG_SPLIT_NO_EMPTY) as $caution)
-                                                <li class="d-flex align-items-start py-2 border-bottom">
-                                                    <i class="fas fa-exclamation-triangle text-warning me-2 mt-1"></i>
-                                                    <span>{{ trim($caution) }}</span>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @else
-                                        <p class="text-muted">No cautions available.</p>
-                                    @endif
+                                    <p class="text">
+                                        {{ $product['cautions'] ?? 'No description available' }}
+                                    </p>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Primary Benefits Tab -->
-                        <div class="tab-pane fade" id="pills-benefits" role="tabpanel"
-                            aria-labelledby="pills-benefits-tab">
-                            <div class="product-information">
-                                <div class="description">
-                                    <h3 class="description-title h5">Primary Benefits</h3>
-                                    @if (!empty($product['primary_benefits']))
-                                        <ul class="list-unstyled mb-0 mt-3">
-                                            @foreach (preg_split('/[\n,]+/', trim($product['primary_benefits'] ?? ''), -1, PREG_SPLIT_NO_EMPTY) as $benefit)
-                                                <li class="d-flex align-items-start py-2 border-bottom">
-                                                    <i class="fas fa-star text-info me-2 mt-1"></i>
-                                                    <span>{{ trim($benefit) }}</span>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @else
-                                        <p class="text-muted">No benefits information available.</p>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Ingredients Tab -->
-                        <div class="tab-pane fade" id="pills-ingredients" role="tabpanel"
-                            aria-labelledby="pills-ingredients-tab">
-                            <div class="product-information">
-                                <div class="description">
-                                    <h3 class="description-title h5">Ingredients</h3>
-                                    @if (!empty($product['ingredients']))
-                                        <ul class="list-unstyled mb-0 mt-3">
-                                            @foreach (preg_split('/[\n,]+/', trim($product['ingredients'] ?? ''), -1, PREG_SPLIT_NO_EMPTY) as $ingredient)
-                                                <li class="d-flex align-items-start py-2 border-bottom">
-                                                    <i class="fas fa-leaf text-success me-2 mt-1"></i>
-                                                    <span>{{ trim($ingredient) }}</span>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @else
-                                        <p class="text-muted">No ingredients information available.</p>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="pills-information" role="tabpanel"
-                            aria-labelledby="pills-information-tab">
-                            <div class="product-information">
-                                <h3 class="description-title h5">Additional Information</h3>
-                                <table class="product-information__item table">
-                                    <tbody>
-                                        <tr>
-                                            <th class="product-information__name" scope="row">Type</th>
-                                            <td>{{ $category['name'] ?? 'No category available' }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="product-information__name" scope="row">Size</th>
-                                            <td>{{ $product['size'] ?? 'No category available' }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="product-information__name" scope="row">Brand</th>
-                                            <td colspan="2">{{ $product->category['brand'] ?? 'VSR' }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="product-information__name" scope="row">Organic</th>
-                                            <td colspan="2">100%</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="pills-contact" role="tabpanel"
-                            aria-labelledby="pills-contact-tab">
-                            <h3 class="description-title h5">Reviews</h3>
-                            <div class="row woocommerce-reviews">
-                                <h2 class="h5 mt-4">0.5 Reviews</h2>
-                                <div class="product-rating">
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                    <span class="product-rating__total">Review (03)</span>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="vs-comments-wrap">
-                                        <ul class="comment-list">
-                                            <li class="review vs-comment-item">
-                                                <div class="vs-post-comment">
-                                                    <div class="comment-avater">
-                                                        <img src="assets/img/blog/comment-author-1.jpg"
-                                                            alt="Comment Author">
-                                                    </div>
-                                                    <div class="comment-content">
-                                                        <div class="comment-content__header">
-                                                            <div class="review-rating">
-                                                                <div class="rating">
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                </div>
-                                                            </div>
-                                                            <h4 class="name h4">Thomas Walkar</h4>
-                                                            <span class="commented-on"><i class="fal fa-calendar-alt"></i>
-                                                                22 April, 2022</span>
-                                                        </div>
-                                                        <p class="text">Delivered ye sportsmen zealously arranging
-                                                            frankness estimabl
-                                                            any article enabled musical shyness yet sixteen. </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="review vs-comment-item">
-                                                <div class="vs-post-comment">
-                                                    <div class="comment-avater">
-                                                        <img src="assets/img/blog/comment-author-2.jpg"
-                                                            alt="Comment Author">
-                                                    </div>
-                                                    <div class="comment-content">
-                                                        <div class="comment-content__header">
-                                                            <div class="review-rating">
-                                                                <div class="rating">
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                </div>
-                                                            </div>
-                                                            <h4 class="name h4">Crish Thomas</h4>
-                                                            <span class="commented-on"><i class="fal fa-calendar-alt"></i>
-                                                                22 April, 2022</span>
-                                                        </div>
-                                                        <p class="text">Delivered ye sportsmen zealously arranging
-                                                            frankness estimabl
-                                                            any article enabled musical shyness yet sixteen. </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="review vs-comment-item">
-                                                <div class="vs-post-comment">
-                                                    <div class="comment-avater">
-                                                        <img src="assets/img/blog/comment-author-3.jpg"
-                                                            alt="Comment Author">
-                                                    </div>
-                                                    <div class="comment-content">
-                                                        <div class="comment-content__header">
-                                                            <div class="review-rating">
-                                                                <div class="rating">
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                </div>
-                                                            </div>
-                                                            <h4 class="name h4">Millem Jakson</h4>
-                                                            <span class="commented-on"><i class="fal fa-calendar-alt"></i>
-                                                                23 April, 2022</span>
-                                                        </div>
-                                                        <p class="text">Delivered ye sportsmen zealously arranging
-                                                            frankness estimabl
-                                                            any article enabled musical shyness yet sixteen. </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
+                            <!-- Primary Benefits Tab -->
+                            <div class="tab-pane fade" id="pills-benefits" role="tabpanel"
+                                aria-labelledby="pills-benefits-tab">
+                                <div class="product-information">
+                                    <div class="description">
+                                        <h3 class="description-title h5">Primary Benefits</h3>
+                                        @if (!empty($product['primary_benefits']))
+                                            <ul class="list-unstyled mb-0 mt-3">
+                                                @foreach (preg_split('/[\n,]+/', trim($product['primary_benefits'] ?? ''), -1, PREG_SPLIT_NO_EMPTY) as $benefit)
+                                                    <li class="d-flex align-items-start py-2 border-bottom">
+                                                        <i class="fas fa-star text-info me-2 mt-1"></i>
+                                                        <span>{{ trim($benefit) }}</span>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @else
+                                            <p class="text-muted">No benefits information available.</p>
+                                        @endif
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="vs-comment-form review-form">
-                                        <div id="respond" class="comment-respond">
-                                            <div class="form-title mb-4">
-                                                <h3 class="description-title h5">Post Review</h3>
-                                                <div class="rating-select">
-                                                    <label>Your Rating</label>
-                                                    <p class="stars">
-                                                        <span>
-                                                            <a class="star-1" href="#">1</a>
-                                                            <a class="star-2" href="#">2</a>
-                                                            <a class="star-3" href="#">3</a>
-                                                            <a class="star-4" href="#">4</a>
-                                                            <a class="star-5" href="#">5</a>
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12 form-group">
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Complete Name">
-                                                </div>
-                                                <div class="col-md-12 form-group">
-                                                    <input type="email" class="form-control"
-                                                        placeholder="Email Address">
-                                                </div>
-                                                <div class="col-12 form-group">
-                                                    <textarea class="form-control" placeholder="Review"></textarea>
-                                                </div>
-                                                <div class="col-12 form-group mb-0">
-                                                    <div class="custom-checkbox notice">
-                                                        <input id="wp-comment-cookies-consent"
-                                                            name="wp-comment-cookies-consent" type="checkbox"
-                                                            value="yes">
-                                                        <label for="wp-comment-cookies-consent"> Save my name, email, and
-                                                            website in this browser for
-                                                            the next time I comment.</label>
+                            </div>
+
+                            <!-- Ingredients Tab -->
+                            <div class="tab-pane fade" id="pills-ingredients" role="tabpanel"
+                                aria-labelledby="pills-ingredients-tab">
+                                <div class="product-information">
+                                    <div class="description">
+                                        <h3 class="description-title h5">Ingredients</h3>
+                                        <p class="text">
+                                            {{ $product['ingredients'] ?? 'No description available' }}
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-information" role="tabpanel"
+                                aria-labelledby="pills-information-tab">
+                                <div class="product-information">
+                                    <h3 class="description-title h5">Additional Information</h3>
+                                    <table class="product-information__item table">
+                                        <tbody>
+                                            <tr>
+                                                <th class="product-information__name" scope="row">Type</th>
+                                                <td>{{ $category['name'] ?? 'No category available' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="product-information__name" scope="row">Size</th>
+                                                <td>{{ $product['size'] ?? 'No category available' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="product-information__name" scope="row">Brand</th>
+                                                <td colspan="2">{{ $product->category['brand'] ?? 'VSR' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="product-information__name" scope="row">Organic</th>
+                                                <td colspan="2">100%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-contact" role="tabpanel"
+                                aria-labelledby="pills-contact-tab">
+                                <h3 class="description-title h5">Reviews</h3>
+                                <div class="row woocommerce-reviews">
+                                    <h2 class="h5 mt-4">0.5 Reviews</h2>
+                                    <div class="product-rating">
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <span class="product-rating__total">Review (03)</span>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="vs-comments-wrap">
+                                            <ul class="comment-list">
+                                                <li class="review vs-comment-item">
+                                                    <div class="vs-post-comment">
+                                                        <div class="comment-avater">
+                                                            <img src="assets/img/blog/comment-author-1.jpg"
+                                                                alt="Comment Author">
+                                                        </div>
+                                                        <div class="comment-content">
+                                                            <div class="comment-content__header">
+                                                                <div class="review-rating">
+                                                                    <div class="rating">
+                                                                        <i class="fas fa-star"></i>
+                                                                        <i class="fas fa-star"></i>
+                                                                        <i class="fas fa-star"></i>
+                                                                        <i class="fas fa-star"></i>
+                                                                        <i class="fas fa-star"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <h4 class="name h4">Thomas Walkar</h4>
+                                                                <span class="commented-on"><i
+                                                                        class="fal fa-calendar-alt"></i>
+                                                                    22 April, 2022</span>
+                                                            </div>
+                                                            <p class="text">Delivered ye sportsmen zealously arranging
+                                                                frankness estimabl
+                                                                any article enabled musical shyness yet sixteen. </p>
+                                                        </div>
                                                     </div>
-                                                    <button class="vs-btn"> <span
-                                                            class="vs-btn__bar"></span>Submit</button>
+                                                </li>
+                                                <li class="review vs-comment-item">
+                                                    <div class="vs-post-comment">
+                                                        <div class="comment-avater">
+                                                            <img src="assets/img/blog/comment-author-2.jpg"
+                                                                alt="Comment Author">
+                                                        </div>
+                                                        <div class="comment-content">
+                                                            <div class="comment-content__header">
+                                                                <div class="review-rating">
+                                                                    <div class="rating">
+                                                                        <i class="fas fa-star"></i>
+                                                                        <i class="fas fa-star"></i>
+                                                                        <i class="fas fa-star"></i>
+                                                                        <i class="fas fa-star"></i>
+                                                                        <i class="fas fa-star"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <h4 class="name h4">Crish Thomas</h4>
+                                                                <span class="commented-on"><i
+                                                                        class="fal fa-calendar-alt"></i>
+                                                                    22 April, 2022</span>
+                                                            </div>
+                                                            <p class="text">Delivered ye sportsmen zealously arranging
+                                                                frankness estimabl
+                                                                any article enabled musical shyness yet sixteen. </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="review vs-comment-item">
+                                                    <div class="vs-post-comment">
+                                                        <div class="comment-avater">
+                                                            <img src="assets/img/blog/comment-author-3.jpg"
+                                                                alt="Comment Author">
+                                                        </div>
+                                                        <div class="comment-content">
+                                                            <div class="comment-content__header">
+                                                                <div class="review-rating">
+                                                                    <div class="rating">
+                                                                        <i class="fas fa-star"></i>
+                                                                        <i class="fas fa-star"></i>
+                                                                        <i class="fas fa-star"></i>
+                                                                        <i class="fas fa-star"></i>
+                                                                        <i class="fas fa-star"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <h4 class="name h4">Millem Jakson</h4>
+                                                                <span class="commented-on"><i
+                                                                        class="fal fa-calendar-alt"></i>
+                                                                    23 April, 2022</span>
+                                                            </div>
+                                                            <p class="text">Delivered ye sportsmen zealously arranging
+                                                                frankness estimabl
+                                                                any article enabled musical shyness yet sixteen. </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="vs-comment-form review-form">
+                                            <div id="respond" class="comment-respond">
+                                                <div class="form-title mb-4">
+                                                    <h3 class="description-title h5">Post Review</h3>
+                                                    <div class="rating-select">
+                                                        <label>Your Rating</label>
+                                                        <p class="stars">
+                                                            <span>
+                                                                <a class="star-1" href="#">1</a>
+                                                                <a class="star-2" href="#">2</a>
+                                                                <a class="star-3" href="#">3</a>
+                                                                <a class="star-4" href="#">4</a>
+                                                                <a class="star-5" href="#">5</a>
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12 form-group">
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Complete Name">
+                                                    </div>
+                                                    <div class="col-md-12 form-group">
+                                                        <input type="email" class="form-control"
+                                                            placeholder="Email Address">
+                                                    </div>
+                                                    <div class="col-12 form-group">
+                                                        <textarea class="form-control" placeholder="Review"></textarea>
+                                                    </div>
+                                                    <div class="col-12 form-group mb-0">
+                                                        <div class="custom-checkbox notice">
+                                                            <input id="wp-comment-cookies-consent"
+                                                                name="wp-comment-cookies-consent" type="checkbox"
+                                                                value="yes">
+                                                            <label for="wp-comment-cookies-consent"> Save my name, email,
+                                                                and
+                                                                website in this browser for
+                                                                the next time I comment.</label>
+                                                        </div>
+                                                        <button class="vs-btn"> <span
+                                                                class="vs-btn__bar"></span>Submit</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -478,9 +465,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            @else
-                <p>No Product Found</p>
+                @else
+                    <p>No Product Found</p>
             @endif
 
         </div>
