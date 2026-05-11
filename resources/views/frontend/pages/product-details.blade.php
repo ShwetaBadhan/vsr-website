@@ -2,8 +2,8 @@
 @section('content')
 
     <!--==============================
-        Breadcumb
-        ============================== -->
+                Breadcumb
+                ============================== -->
     <div class="breadcumb-wrapper" data-bg-src="{{ url('assets/img/breadcrumb/breadcumb-bg.png') }}">
         <div class="container z-index-common">
             <div class="breadcumb-content">
@@ -18,8 +18,8 @@
         </div>
     </div>
     <!--==============================
-        Products-details area
-        ============================== -->
+                Products-details area
+                ============================== -->
     <div class="vs-product-wrapper product-details space-top space-extra-bottom">
         <div class="container">
             @if ($product)
@@ -93,28 +93,32 @@
                                     </div>
                                 </div>
                                 <p class="product-price"> Rs.{{ $product['discount_price'] ?? '0' }}
-                                    <del>Rs.{{ $product['price'] ?? '0' }}</del></p>
+                                    <del>Rs.{{ $product['price'] ?? '0' }}</del>
+                                </p>
                                 <p>Free Shipping On This Item</p>
-                               <form action="{{ route('cart.add') }}" method="POST" id="addToCartForm" class="d-inline">
-    @csrf
-    {{-- Required hidden fields --}}
-    <input type="hidden" name="product_id" value="{{ $product['id'] }}">
-    <input type="hidden" name="product_name" value="{{ $product['name'] }}">
-    <input type="hidden" name="product_slug" value="{{ $product['slug'] ?? 'product-' . $product['id'] }}">
-    <input type="hidden" name="product_image" value="{{ $product['images'][0] ?? '' }}">
-    
-    {{-- Price fields for discount logic --}}
-    <input type="hidden" name="product_price" value="{{ $product['discount_price'] ?? $product['price'] }}">
-    <input type="hidden" name="original_price" value="{{ $product['price'] }}">
-    <input type="hidden" name="discount_percentage" value="{{ $product['discount_percentage'] ?? 0 }}">
-    
-    {{-- ✅ Quantity field - yahi value cart mein jayegi --}}
-    <input type="hidden" name="quantity" id="form_quantity" value="1">
-    
-    <button type="submit" class="vs-btn add-to-cart-btn">
-        <i class="far fa-shopping-basket"></i> Add to Cart
-    </button>
-</form>
+                                <form action="{{ route('cart.add') }}" method="POST" id="addToCartForm" class="d-inline">
+                                    @csrf
+                                    {{-- Required hidden fields --}}
+                                    <input type="hidden" name="product_id" value="{{ $product['id'] }}">
+                                    <input type="hidden" name="product_name" value="{{ $product['name'] }}">
+                                    <input type="hidden" name="product_slug"
+                                        value="{{ $product['slug'] ?? 'product-' . $product['id'] }}">
+                                    <input type="hidden" name="product_image" value="{{ $product['images'][0] ?? '' }}">
+
+                                    {{-- Price fields for discount logic --}}
+                                    <input type="hidden" name="product_price"
+                                        value="{{ $product['discount_price'] ?? $product['price'] }}">
+                                    <input type="hidden" name="original_price" value="{{ $product['price'] }}">
+                                    <input type="hidden" name="discount_percentage"
+                                        value="{{ $product['discount_percentage'] ?? 0 }}">
+
+                                    {{-- ✅ Quantity field - yahi value cart mein jayegi --}}
+                                    <input type="hidden" name="quantity" id="form_quantity" value="1">
+
+                                    <button type="submit" class="vs-btn add-to-cart-btn">
+                                        <i class="far fa-shopping-basket"></i> Add to Cart
+                                    </button>
+                                </form>
                                 <a href="#" class="icon-btn"><i class="far fa-heart"></i></a>
                             </div>
                             <div class="product_meta">
@@ -136,18 +140,41 @@
                         <ul class="nav nav-pills" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
-                                    aria-selected="true">Description</button>
+                                    data-bs-target="#pills-home" type="button" role="tab"
+                                    aria-controls="pills-home" aria-selected="true">Description</button>
                             </li>
                             <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-uses-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-uses" type="button" role="tab"
+                                    aria-controls="pills-uses" aria-selected="true">Uses</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-directions-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-directions" type="button" role="tab"
+                                    aria-controls="pills-directions" aria-selected="true">Directions for Use</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-cautions-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-cautions" type="button" role="tab"
+                                    aria-controls="pills-cautions" aria-selected="true">Cautions</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-benefits-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-benefits" type="button" role="tab"
+                                    aria-controls="pills-benefits" aria-selected="true">Primary Benefits</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-ingredients-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-ingredients" type="button" role="tab"
+                                    aria-controls="pills-ingredients" aria-selected="true">Ingredients</button>
+                            </li>
+                            {{-- <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="pills-information-tab" data-bs-toggle="pill"
                                     data-bs-target="#pills-information" type="button" role="tab"
                                     aria-controls="pills-information" aria-selected="false">Additional
                                     Information</button>
-                            </li>
-                            {{-- <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Reviews (03)</button>
-                </li> --}}
+                            </li> --}}
+
                         </ul>
                     </div>
                     <div class="tab-content" id="pills-tabContent">
@@ -164,6 +191,114 @@
                                     <img src="{{ url('assets/img/bg/product-details-bg.jpg') }}" alt="product-details">
                                 </div>
 
+                            </div>
+                        </div>
+                        <!-- Uses Tab -->
+                        <div class="tab-pane fade" id="pills-uses" role="tabpanel" aria-labelledby="pills-uses-tab">
+                            <div class="product-information">
+                                <div class="description">
+                                    <h3 class="description-title h5">Uses</h3>
+                                    @if (!empty($product['uses']))
+                                        <ul class="list-unstyled mb-0 mt-3">
+                                            @foreach (preg_split('/[\n,]+/', trim($product['uses'] ?? ''), -1, PREG_SPLIT_NO_EMPTY) as $use)
+                                                <li class="d-flex align-items-start py-2 border-bottom">
+                                                    <i class="fas fa-check-circle text-success me-2 mt-1"></i>
+                                                    <span>{{ trim($use) }}</span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <p class="text-muted">No uses information available.</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Directions for Use Tab -->
+                        <div class="tab-pane fade" id="pills-directions" role="tabpanel"
+                            aria-labelledby="pills-directions-tab">
+                            <div class="product-information">
+                                <div class="description">
+                                    <h3 class="description-title h5">Directions for Use</h3>
+                                    @if (!empty($product['directions_for_use']))
+                                        <ul class="list-unstyled mb-0 mt-3">
+                                            @foreach (preg_split('/[\n,]+/', trim($product['directions_for_use'] ?? ''), -1, PREG_SPLIT_NO_EMPTY) as $direction)
+                                                <li class="d-flex align-items-start py-2 border-bottom">
+                                                    <i class="fas fa-arrow-right text-primary me-2 mt-1"></i>
+                                                    <span>{{ trim($direction) }}</span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <p class="text-muted">No directions available.</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cautions Tab -->
+                        <div class="tab-pane fade" id="pills-cautions" role="tabpanel"
+                            aria-labelledby="pills-cautions-tab">
+                            <div class="product-information">
+                                <div class="description">
+                                    <h3 class="description-title h5">Cautions</h3>
+                                    @if (!empty($product['cautions']))
+                                        <ul class="list-unstyled mb-0 mt-3">
+                                            @foreach (preg_split('/[\n,]+/', trim($product['cautions'] ?? ''), -1, PREG_SPLIT_NO_EMPTY) as $caution)
+                                                <li class="d-flex align-items-start py-2 border-bottom">
+                                                    <i class="fas fa-exclamation-triangle text-warning me-2 mt-1"></i>
+                                                    <span>{{ trim($caution) }}</span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <p class="text-muted">No cautions available.</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Primary Benefits Tab -->
+                        <div class="tab-pane fade" id="pills-benefits" role="tabpanel"
+                            aria-labelledby="pills-benefits-tab">
+                            <div class="product-information">
+                                <div class="description">
+                                    <h3 class="description-title h5">Primary Benefits</h3>
+                                    @if (!empty($product['primary_benefits']))
+                                        <ul class="list-unstyled mb-0 mt-3">
+                                            @foreach (preg_split('/[\n,]+/', trim($product['primary_benefits'] ?? ''), -1, PREG_SPLIT_NO_EMPTY) as $benefit)
+                                                <li class="d-flex align-items-start py-2 border-bottom">
+                                                    <i class="fas fa-star text-info me-2 mt-1"></i>
+                                                    <span>{{ trim($benefit) }}</span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <p class="text-muted">No benefits information available.</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ingredients Tab -->
+                        <div class="tab-pane fade" id="pills-ingredients" role="tabpanel"
+                            aria-labelledby="pills-ingredients-tab">
+                            <div class="product-information">
+                                <div class="description">
+                                    <h3 class="description-title h5">Ingredients</h3>
+                                    @if (!empty($product['ingredients']))
+                                        <ul class="list-unstyled mb-0 mt-3">
+                                            @foreach (preg_split('/[\n,]+/', trim($product['ingredients'] ?? ''), -1, PREG_SPLIT_NO_EMPTY) as $ingredient)
+                                                <li class="d-flex align-items-start py-2 border-bottom">
+                                                    <i class="fas fa-leaf text-success me-2 mt-1"></i>
+                                                    <span>{{ trim($ingredient) }}</span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <p class="text-muted">No ingredients information available.</p>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="pills-information" role="tabpanel"
@@ -353,92 +488,92 @@
 
 @endsection
 @push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // ✅ Quantity Buttons - Update both input AND hidden form field
-    const qtyInput = document.querySelector('.qty-input');
-    const formQuantity = document.getElementById('form_quantity');
-    
-    document.querySelector('.quantity-plus')?.addEventListener('click', function(e) {
-        e.preventDefault();
-        let qty = parseInt(qtyInput.value) || 1;
-        qty = Math.min(100, qty + 1); // Max 100
-        qtyInput.value = qty;
-        if(formQuantity) formQuantity.value = qty; // ✅ Sync with form
-    });
-    
-    document.querySelector('.quantity-minus')?.addEventListener('click', function(e) {
-        e.preventDefault();
-        let qty = parseInt(qtyInput.value) || 1;
-        qty = Math.max(1, qty - 1); // Min 1
-        qtyInput.value = qty;
-        if(formQuantity) formQuantity.value = qty; // ✅ Sync with form
-    });
-    
-    // ✅ Manual input change - bhi sync kare
-    qtyInput?.addEventListener('change', function() {
-        let val = parseInt(this.value) || 1;
-        val = Math.max(1, Math.min(100, val));
-        this.value = val;
-        if(formQuantity) formQuantity.value = val; // ✅ Sync with form
-    });
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
 
-    // ✅ AJAX Add to Cart (Optional - agar aap bina page reload ke cart update karna chahti hain)
-    const cartForm = document.getElementById('addToCartForm');
-    if(cartForm) {
-        cartForm.addEventListener('submit', function(e) {
-            // Agar aap AJAX use karna chahti hain toh uncomment karein:
-            /*
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const btn = this.querySelector('.add-to-cart-btn');
-            const originalText = btn.innerHTML;
-            
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
-            btn.disabled = true;
-            
-            fetch(this.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(res => res.json())
-            .then(data => {
-                if(data.success) {
-                    // Update side cart badge
-                    const badge = document.getElementById('cartCountBadge');
-                    if(badge) badge.textContent = data.cart_count;
-                    
-                    // Show success toast
-                    if(typeof Swal !== 'undefined') {
-                        Swal.fire({
-                            title: 'Added!',
-                            text: data.message,
-                            icon: 'success',
-                            timer: 2000,
-                            showConfirmButton: false,
-                            toast: true,
-                            position: 'top-end'
-                        });
-                    }
-                }
-            })
-            .catch(err => console.error(err))
-            .finally(() => {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
+            // ✅ Quantity Buttons - Update both input AND hidden form field
+            const qtyInput = document.querySelector('.qty-input');
+            const formQuantity = document.getElementById('form_quantity');
+
+            document.querySelector('.quantity-plus')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                let qty = parseInt(qtyInput.value) || 1;
+                qty = Math.min(100, qty + 1); // Max 100
+                qtyInput.value = qty;
+                if (formQuantity) formQuantity.value = qty; // ✅ Sync with form
             });
-            */
-            
-        
+
+            document.querySelector('.quantity-minus')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                let qty = parseInt(qtyInput.value) || 1;
+                qty = Math.max(1, qty - 1); // Min 1
+                qtyInput.value = qty;
+                if (formQuantity) formQuantity.value = qty; // ✅ Sync with form
+            });
+
+            // ✅ Manual input change - bhi sync kare
+            qtyInput?.addEventListener('change', function() {
+                let val = parseInt(this.value) || 1;
+                val = Math.max(1, Math.min(100, val));
+                this.value = val;
+                if (formQuantity) formQuantity.value = val; // ✅ Sync with form
+            });
+
+            // ✅ AJAX Add to Cart (Optional - agar aap bina page reload ke cart update karna chahti hain)
+            const cartForm = document.getElementById('addToCartForm');
+            if (cartForm) {
+                cartForm.addEventListener('submit', function(e) {
+                    // Agar aap AJAX use karna chahti hain toh uncomment karein:
+                    /*
+                    e.preventDefault();
+                    
+                    const formData = new FormData(this);
+                    const btn = this.querySelector('.add-to-cart-btn');
+                    const originalText = btn.innerHTML;
+                    
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
+                    btn.disabled = true;
+                    
+                    fetch(this.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if(data.success) {
+                            // Update side cart badge
+                            const badge = document.getElementById('cartCountBadge');
+                            if(badge) badge.textContent = data.cart_count;
+                            
+                            // Show success toast
+                            if(typeof Swal !== 'undefined') {
+                                Swal.fire({
+                                    title: 'Added!',
+                                    text: data.message,
+                                    icon: 'success',
+                                    timer: 2000,
+                                    showConfirmButton: false,
+                                    toast: true,
+                                    position: 'top-end'
+                                });
+                            }
+                        }
+                    })
+                    .catch(err => console.error(err))
+                    .finally(() => {
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    });
+                    */
+
+
+                });
+            }
         });
-    }
-});
-</script>
+    </script>
 @endpush

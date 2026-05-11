@@ -1,12 +1,19 @@
    <!--==============================
     Categories Area
     ============================== -->
-    <section class="categorie-layout2">
+    <section class="categorie-layout2 space">
         <div class="container">
             <div class="d-flex title-area justify-content-between align-items-end">
                 <div class="title-left">
-                    <span class="sec-subtitle">Our Categories</span>
+                 <div class="title-area mb-60 text-center wow fadeInUp wow-animated" data-wow-delay="0.3s">
+                      <div class="title-img">
+                          <img src="assets/img/icon/title-logo.png" alt="title logo">
+                      </div>
+                     <span class="sec-subtitle">Our Categories</span>
                     <h2 class="sec-title">Browse Our Categories</h2>
+                  </div>
+                 
+                    
                 </div>
                
             </div>

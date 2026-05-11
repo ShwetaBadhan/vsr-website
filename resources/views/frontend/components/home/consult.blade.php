@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="selling-img">
-                        <img src="assets/img/service/selling-img-1-1.png" alt="selling-img">
+                        <img src="assets/img/about/consult-now.png" alt="selling-img">
                         <div class="img1">
                             <img src="assets/img/service/selling-img-1-2.png" alt="selling-img">
                         </div>
