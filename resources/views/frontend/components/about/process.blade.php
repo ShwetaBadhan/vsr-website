@@ -14,7 +14,7 @@
                 <div class="col-lg-3">
                     <div class="process-style1">
                         <div class="process-img">
-                            <img src="assets/img/process/process-1-1.png" alt="process-image">
+                            <img src="assets/img/process/process (2).png" alt="process-image">
                         </div>
                         <div class="process-content">
                             <h3 class="process-title h5"><a href="{{ route('service-details') }}">Careful Ingredient Selection</a></h3>
@@ -26,7 +26,7 @@
                 <div class="col-lg-3">
                     <div class="process-style1">
                         <div class="process-img">
-                            <img src="assets/img/process/process-1-2.png" alt="process-image">
+                            <img src="assets/img/process/process (3).png" alt="process-image">
                         </div>
                         <div class="process-content">
                             <h3 class="process-title h5"><a href="{{ route('service-details') }}">Nature-Backed Formulations
@@ -39,7 +39,7 @@
                 <div class="col-lg-3">
                     <div class="process-style1">
                         <div class="process-img">
-                            <img src="assets/img/process/process-1-3.png" alt="process-image">
+                            <img src="assets/img/process/process (4).png" alt="process-image">
                         </div>
                         <div class="process-content">
                             <h3 class="process-title h5"><a href="{{ route('service-details') }}">Quality & Purity Assurance</a></h3>
@@ -51,7 +51,7 @@
                 <div class="col-lg-3">
                     <div class="process-style1">
                         <div class="process-img">
-                            <img src="assets/img/process/process-1-4.png" alt="process-image">
+                            <img src="assets/img/process/process (1).png" alt="process-image">
                         </div>
                         <div class="process-content">
                             <h3 class="process-title h5"><a href="{{ route('service-details') }}">Continuous Innovation</a></h3>

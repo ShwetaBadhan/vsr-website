@@ -6,7 +6,7 @@
             <div class="row gx-5 justify-content-end">
                 <div class="col-lg-6">
                     <div class="about-img">
-                        <img src="assets/img/about/about-1-1.jpg" alt="about-image">
+                        <img src="assets/img/about/about-us.png" alt="about-image">
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -40,7 +40,7 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="item-img">
-                                    <img src="assets/img/about/about-1-2.jpg" alt="about img">
+                                    <img src="assets/img/process/process (1).png" alt="about img">
                                     <a href="https://www.youtube.com/watch?v=_sI_Ps7JSEk" class="play-btn popup-video">
                                         <i class="fas fa-play"></i>
                                     </a>
