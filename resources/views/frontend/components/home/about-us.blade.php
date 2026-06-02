@@ -27,7 +27,7 @@
                       </p>
                   </div>
               </div>
-              <div class="col-lg-6">
+              {{-- <div class="col-lg-6">
                   <div class="about-img">
                       <a href="https://www.youtube.com/watch?v=_sI_Ps7JSEk" class="play-btn popup-video">
                           <i class="fas fa-play"></i>
@@ -39,7 +39,7 @@
                           <a href="{{ route('about-us') }}" class="vs-btn">Certify Products</a>
                       </div>
                   </div>
-              </div>
+              </div> --}}
           </div>
       </div>
       <div class="shape-mockup moving z-index-n1 d-none d-xxl-block" style="right: 9%; bottom: 22%;"><img

@@ -4,7 +4,29 @@
                <div class="row justify-content-between align-items-center">
                    <div class="col-auto">
                        <div class="header-links">
+                       
                            <ul>
+                           <li>
+                             @php
+                                   $settings = $settings ?? null;
+                                   $whiteLogo = $settings?->white_logo ?? ($settings['white_logo'] ?? null);
+                                   $blackLogo = $settings?->black_logo ?? ($settings['black_logo'] ?? null);
+                                   $fallback = asset('assets/img/logo-2.png');
+                               @endphp
+                               <div class="header-logo">
+                                   <a class="logo1" href="{{ route('home') }}">
+                                       <img src="{{ $whiteLogo ?: $fallback }}"
+                                           alt="{{ $settings?->company_name ?? 'Logo' }}"
+                                           style="max-height: 50px; width: auto;">
+                                   </a>
+
+                                   <a class="logo2" href="{{ route('home') }}">
+                                       <img src="{{ $blackLogo ?: $fallback }}"
+                                           alt="{{ $settings?->company_name ?? 'Logo' }}"
+                                           style="max-height: 50px; width: auto;">
+                                   </a>
+                               </div>
+                           </li>
                                <li><i class="far fa-map-marker-alt"></i>{{ $settings['location'] ?? 'Fazilka' }}</li>
                                <li><i class="far fa-envelope"></i><a
                                        href="mailto:{{ $settings['email'] ?? 'info@gmail.com' }}">{{ $settings['email'] }}</a>
@@ -16,12 +38,12 @@
                            </ul>
                        </div>
                    </div>
-                   <div class="col-auto">
-                       <div class="social-style1">
-                           <a href="#"><i class="fab fa-facebook-f"></i></a>
-                           <a href="#"><i class="fab fa-instagram"></i></a>
-                       </div>
-                   </div>
+                  <div class="col-auto">
+    <div class="social-style1">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+    </div>
+</div>
                </div>
            </div>
        </div>
@@ -45,25 +67,7 @@
                                </div>
                            </div>
                            <div class="col text-center">
-                               @php
-                                   $settings = $settings ?? null;
-                                   $whiteLogo = $settings?->white_logo ?? ($settings['white_logo'] ?? null);
-                                   $blackLogo = $settings?->black_logo ?? ($settings['black_logo'] ?? null);
-                                   $fallback = asset('assets/img/logo-2.png');
-                               @endphp
-                               <div class="header-logo">
-                                   <a class="logo1" href="{{ route('home') }}">
-                                       <img src="{{ $whiteLogo ?: $fallback }}"
-                                           alt="{{ $settings?->company_name ?? 'Logo' }}"
-                                           style="max-height: 50px; width: auto;">
-                                   </a>
-
-                                   <a class="logo2" href="{{ route('home') }}">
-                                       <img src="{{ $blackLogo ?: $fallback }}"
-                                           alt="{{ $settings?->company_name ?? 'Logo' }}"
-                                           style="max-height: 50px; width: auto;">
-                                   </a>
-                               </div>
+                             
                            </div>
                            <div class="col-auto d-lg-none">
                                <button class="vs-menu-toggle d-inline-block">
@@ -141,3 +145,15 @@
            </div>
        </div>
    </header>
+   <style>
+   .social-style1 a {
+    color: #333; /* Your icon color */
+    text-decoration: none;
+}
+
+.social-style1 a:first-child {
+    border-right: 1px solid #ccc; /* This creates the "pipe" line */
+    padding-right: 12px;          /* Space between icon and pipe */
+    margin-right: 12px;           /* Space between pipe and next icon */
+}
+   </style>

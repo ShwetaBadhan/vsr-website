@@ -364,7 +364,7 @@ h6 {
 /*------------------- 2.2. Grid -------------------*/
 @media (min-width: 767px) {
   .row:not([class*=gx-]) {
-    --bs-gutter-x: 30px;
+    --bs-gutter-x: 10px;
   }
 }
 .gy-gx {

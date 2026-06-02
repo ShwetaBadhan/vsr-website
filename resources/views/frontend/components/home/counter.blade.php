@@ -48,7 +48,7 @@
                 @endphp
                 
                 @forelse($counterItems as $index => $counter)
-                    <div class="col-xl-auto col-lg-4 col-md-6">
+                    <div class="col-xl-auto col-lg-4 col-md-6 col-sm-4">
                         <div class="media-style">
                             <div class="media-inner">
                                 <div class="media-icon">

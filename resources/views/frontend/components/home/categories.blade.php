@@ -37,9 +37,9 @@
                         </a>
                     </h3>
 
-                    <p class="categorie-text">
+                    {{-- <p class="categorie-text">
                         {{ $category['item_count'] ?? 'Items' }}
-                    </p>
+                    </p> --}}
                 </div>
 
             </div>
