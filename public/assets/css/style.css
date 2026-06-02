@@ -2356,7 +2356,7 @@ a.text-theme:hover,
 
 .header-logo {
   max-width: 270px;
-  padding: 15px 0;
+  /* padding: 15px 0; */
 }
 
 .will-sticky .sticky-active {
@@ -2667,7 +2667,7 @@ a.text-theme:hover,
 }
 .header-layout3 .header-logo {
   max-width: 100%;
-  padding: 20px 0;
+  /* padding: 20px 0; */
 }
 .header-layout3 .header-logo .logo2 {
   display: none;

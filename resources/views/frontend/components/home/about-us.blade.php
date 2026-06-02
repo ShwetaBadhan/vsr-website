@@ -27,19 +27,19 @@
                       </p>
                   </div>
               </div>
-              {{-- <div class="col-lg-6">
+             <div class="col-lg-6">
                   <div class="about-img">
-                      <a href="https://www.youtube.com/watch?v=_sI_Ps7JSEk" class="play-btn popup-video">
+                      {{-- <a href="https://www.youtube.com/watch?v=_sI_Ps7JSEk" class="play-btn popup-video">
                           <i class="fas fa-play"></i>
-                      </a>
+                      </a> --}}
                       <img src="{{ $about['image'] ?? 'assets/img/about/about-bg-2-1.jpg' }}" alt="about img"
                           class="img1">
-                      <div class="img-content">
+                      {{-- <div class="img-content">
                           <h2 class="img-title h4"> {{ $about['feature_1_title'] ?? '' }}</h2>
                           <a href="{{ route('about-us') }}" class="vs-btn">Certify Products</a>
-                      </div>
+                      </div> --}}
                   </div>
-              </div> --}}
+              </div>
           </div>
       </div>
       <div class="shape-mockup moving z-index-n1 d-none d-xxl-block" style="right: 9%; bottom: 22%;"><img
