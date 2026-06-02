@@ -19,14 +19,7 @@
             </div>
         </div>
         <div class="row gy-5 gx-5 align-items-center">
-            <!-- Image Column (Moved to Left) -->
-            <div class="col-lg-6">
-                <div class="about-img">
-                    <img src="{{ $about['image'] ?? 'assets/img/about/about-bg-2-1.jpg' }}" 
-                         alt="about img" 
-                         class="img-fluid about-controlled-img">
-                </div>
-            </div>
+          
             
             <!-- Content Column (Moved to Right) -->
             <div class="col-lg-6">
@@ -34,6 +27,15 @@
                     <p class="about-text" style="text-align: justify;">
                         {!! nl2br(e($about['description_1'] ?? '')) !!}
                     </p>
+                </div>
+            </div>
+
+              <!-- Image Column (Moved to Left) -->
+            <div class="col-lg-6">
+                <div class="about-img">
+                    <img src="{{ $about['image'] ?? 'assets/img/about/about-bg-2-1.jpg' }}" 
+                         alt="about img" 
+                         class="img-fluid about-controlled-img">
                 </div>
             </div>
         </div>
