@@ -23,11 +23,11 @@
               <div class="col-lg-6">
                   <div class="about-content">
                       <p class="about-text" align="justify">
-                          {{ $about['description_1'] ?? '' }}
+                          {!! nl2br(e($about['description_1'] ?? '')) !!}
                       </p>
                   </div>
               </div>
-             <div class="col-lg-6">
+              <div class="col-lg-6">
                   <div class="about-img">
                       {{-- <a href="https://www.youtube.com/watch?v=_sI_Ps7JSEk" class="play-btn popup-video">
                           <i class="fas fa-play"></i>
