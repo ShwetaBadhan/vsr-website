@@ -3,9 +3,17 @@
     ============================== -->
 <section class="about-layout3 space">
     <div class="container">
-        <div class="row justify-content-center align-items-center">
+        {{-- <div class="row justify-content-center align-items-center">
             <div class="col-lg-9">
-                <div class="title-area mb-60 text-center wow fadeInUp wow-animated" data-wow-delay="0.3s">
+               
+            </div>
+        </div> --}}
+        <div class="row gy-5 gx-5 align-items-center">
+          
+            
+            <!-- Content Column (Moved to Right) -->
+            <div class="col-lg-6">
+             <div class="title-area mb-60 text-center wow fadeInUp wow-animated" data-wow-delay="0.3s">
                     <div class="title-img">
                         <img src="assets/img/icon/title-logo.png" alt="title logo">
                     </div>
@@ -16,13 +24,6 @@
                         {{ $about['main_title'] ?? 'About Us' }}
                     </h2>
                 </div>
-            </div>
-        </div>
-        <div class="row gy-5 gx-5 align-items-center">
-          
-            
-            <!-- Content Column (Moved to Right) -->
-            <div class="col-lg-6">
                 <div class="about-content">
                     <p class="about-text" style="text-align: justify;">
                         {!! nl2br(e($about['description_1'] ?? '')) !!}
